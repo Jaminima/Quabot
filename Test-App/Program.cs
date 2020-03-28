@@ -1,6 +1,7 @@
 ﻿using DTBot_Template;
 using DTBot_Template.Data;
 using DTBot_Template.Generics;
+using DTBot_Template.Intergrations;
 using System;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Test_App
         private static void Main(string[] args)
         {
             botConfig = BotConfig.Load();
+
             if (botConfig == null) Console.WriteLine("Please fill the config file with valid details, and run again");
             else
             {
@@ -54,6 +56,10 @@ namespace Test_App
 
                 case "echodm":
                     await Bot.SendDM(command.sender, command.commandArgString);
+                    break;
+
+                case "WTF":
+                    await Bot.SendMessage(command.channel, Streamlabs.GetDonations(botConfig.Streamlabs).ToString());
                     break;
 
                 case "bal":

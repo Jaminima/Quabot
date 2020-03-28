@@ -10,6 +10,8 @@ namespace DTBot_Template.Data
     {
         public string twitch_Username, twitch_token, twitch_Channel, discord_Token;
 
+        public OAuth Streamlabs;
+
         private const string conf_Path = "./Data/Config.json";
 
         public void Save()
@@ -27,5 +29,11 @@ namespace DTBot_Template.Data
             }
             return null;
         }
+    }
+
+    public class OAuth
+    {
+        public string Token, client_Id, client_Secret, token_type;
+        public bool TokenIsRefresh = false;
     }
 }
