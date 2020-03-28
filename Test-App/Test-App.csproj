@@ -245,7 +245,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankHandler.cs" />
+    <Compile Include="ExtendedUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

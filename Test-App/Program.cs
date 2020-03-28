@@ -30,13 +30,14 @@ namespace Test_App
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
 
+        private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
+
         #endregion Fields
 
         public static async Task HandleCommand(Command command, BaseBot Bot)
         {
-            Bank[] tBanks = BankHandler.FromUsers(command.mentions);
-            Bank bank = BankHandler.bankAccounts.Find(x => x.user.Equals(command.sender));
-            if (bank == null) { bank = new Bank(command.sender, 1000); BankHandler.bankAccounts.Add(bank); }
+            ExtendedUser[] tBanks = infoHandler.FindUsers(command.mentions);
+            ExtendedUser bank = infoHandler.FindUser(command.sender);
 
             switch (command.commandStr)
             {
