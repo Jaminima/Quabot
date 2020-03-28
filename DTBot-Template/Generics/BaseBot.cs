@@ -24,29 +24,9 @@ namespace DTBot_Template.Generics
 
         #region Methods
 
-        public async virtual Task SendDM(User user, string Message)
+        public string replacePeramaters(string original, Source source, User Source = null, User[] Targets = null, uint Value = 0, string CurrencyName = "")
         {
-        }
-
-        public async virtual Task SendMessage(Channel channel, string Message)
-        {
-        }
-
-        public async Task SendDM(User user, string Message, Source source, User[] Targets = null, uint Value = 0, string CurrencyName = "")
-        {
-            Message = replacePeramaters(Message, source, user, Targets, Value, CurrencyName);
-            await SendDM(user,Message);
-        }
-
-        public async Task SendMessage(Channel channel, string Message, Source source, User user = null, User[] Targets = null, uint Value = 0, string CurrencyName = "")
-        {
-            Message = replacePeramaters(Message, source, user, Targets, Value, CurrencyName);
-            await SendMessage(channel, Message);
-        }
-
-        public string replacePeramaters(string original,Source source,User Source=null,User[] Targets = null,uint Value=0,string CurrencyName="")
-        {
-            if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Id + ">"); 
+            if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Id + ">");
             else original = original.Replace("{User}", "@" + Source?.Id);
 
             original = original.Replace("{Value}", Value.ToString());
@@ -56,12 +36,32 @@ namespace DTBot_Template.Generics
             {
                 for (int i = 0; i < Targets.Length; i++)
                 {
-                    if (source == Generics.Source.Discord) { original = original.Replace("{User"+i+"}", "<@" + Targets[i].Id + ">"); }
-                    else { original = original.Replace("{User"+i+"}", "@" + Targets[i].Name); }
+                    if (source == Generics.Source.Discord) { original = original.Replace("{User" + i + "}", "<@" + Targets[i].Id + ">"); }
+                    else { original = original.Replace("{User" + i + "}", "@" + Targets[i].Name); }
                 }
             }
 
             return original;
+        }
+
+        public async virtual Task SendDM(User user, string Message)
+        {
+        }
+
+        public async Task SendDM(User user, string Message, Source source, User[] Targets = null, uint Value = 0, string CurrencyName = "")
+        {
+            Message = replacePeramaters(Message, source, user, Targets, Value, CurrencyName);
+            await SendDM(user, Message);
+        }
+
+        public async virtual Task SendMessage(Channel channel, string Message)
+        {
+        }
+
+        public async Task SendMessage(Channel channel, string Message, Source source, User user = null, User[] Targets = null, uint Value = 0, string CurrencyName = "")
+        {
+            Message = replacePeramaters(Message, source, user, Targets, Value, CurrencyName);
+            await SendMessage(channel, Message);
         }
 
         #endregion Methods

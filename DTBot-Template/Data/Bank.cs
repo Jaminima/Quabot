@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DTBot_Template.Data
+﻿namespace DTBot_Template.Data
 {
     public class Bank
     {
-        public Generics.User user;
-        public uint balance;
+        #region Fields
 
-        public Bank(Generics.User _user,uint _balance=0)
+        public uint balance;
+        public Generics.User user;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public Bank(Generics.User _user, uint _balance = 0)
         {
             this.user = _user;
             this.balance = _balance;
         }
+
+        #endregion Constructors
     }
 }

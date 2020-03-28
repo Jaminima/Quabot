@@ -11,8 +11,7 @@ namespace DTBot_Template.Generics
 
         private SocketUser discord_Source;
 
-        public readonly ulong Id;
-        public readonly string Name;
+        public readonly string Name, Id;
 
         #endregion Fields
 
@@ -21,14 +20,21 @@ namespace DTBot_Template.Generics
         public User(ChatMessage args)
         {
             Name = args.Username;
-            Id = ulong.Parse(args.UserId);
+            Id = args.UserId;
         }
 
         public User(SocketUser args)
         {
             discord_Source = args;
             Name = args.Username;
-            Id = args.Id;
+            Id = args.Id.ToString();
+        }
+
+        public User(string Mention, Source source)
+        {
+            Mention = Mention.Substring(2, Mention.Length - 3).Replace("!", "");
+            if (source == Source.Discord) Id = Mention;
+            else Name = Mention.Substring(1);
         }
 
         #endregion Constructors
@@ -37,7 +43,7 @@ namespace DTBot_Template.Generics
 
         public bool Equals(User other)
         {
-            return other.Id == this.Id && other.Name == this.Name;
+            return other.Id == this.Id || other.Name == this.Name;
         }
 
         public async Task SendDM(string Message)
