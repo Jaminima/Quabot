@@ -17,7 +17,7 @@
 
         public Source Source
         {
-            get { return Source; }
+            get { return source; }
         }
 
         #endregion Properties

@@ -47,9 +47,9 @@ namespace Test_App
 
         public static async Task HandleMessage(Message message, BaseBot Bot)
         {
-            if (message.body.ToLower().StartsWith("i am") || message.body.ToLower().StartsWith("i'm"))
+            if (message.body.ToLower().StartsWith("i am") || message.body.ToLower().StartsWith("i'm") || message.body.ToLower().StartsWith("im"))
             {
-                await Bot.SendMessage(message.channel, "Hi {User} Im Dad");
+                await Bot.SendMessage(message.channel, "{User} Hi "+message.body.Replace("i am ","").Replace("i'm ","").Replace("im ", "") + " Im Dad",message.Source,message.sender);
             }
         }
     }
