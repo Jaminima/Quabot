@@ -53,6 +53,20 @@ namespace Test_App
                     if (command.mentions.Length == 0) await Bot.SendMessage(command.channel, "{User} You Have {Value} {Currency}", command.Source, command.sender, Value: bank.balance, CurrencyName: "ShitCoin");
                     else await Bot.SendMessage(command.channel, "{User} {User0} Has {Value} {Currency}", command.Source, command.sender, command.mentions, Value: tBanks[0].balance, CurrencyName: "ShitCoin");
                     break;
+
+                case "pay":
+                    if (command.mentions.Length > 0 && command.values.Length > 0)
+                    {
+                        if (bank.balance >= command.values[0])
+                        {
+                            bank.balance -= command.values[0];
+                            tBanks[0].balance += command.values[0];
+                            await Bot.SendMessage(command.channel, "{User} Paid {Value} {Currency} To {User0}", command.Source, command.sender, command.mentions, command.values[0], "Shit Coin");
+                        }
+                        else await Bot.SendMessage(command.channel, "{User} You Only Have {Value} {Currency}", command.Source, command.sender, Value: bank.balance, CurrencyName: "Shit Coin");
+                    }
+                    else await Bot.SendMessage(command.channel, "{User} You Fucked Up {NWord}", command.Source, command.sender);
+                    break;
             }
         }
 
