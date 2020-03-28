@@ -32,19 +32,19 @@ namespace DTBot_Template.Generics
         {
         }
 
-        public async Task SendDM(User user, string Message, Source source, User[] Targets = null, int Value = 0, string CurrencyName = "")
+        public async Task SendDM(User user, string Message, Source source, User[] Targets = null, uint Value = 0, string CurrencyName = "")
         {
             Message = replacePeramaters(Message, source, user, Targets, Value, CurrencyName);
             await SendDM(user,Message);
         }
 
-        public async Task SendMessage(Channel channel, string Message, Source source, User user = null, User[] Targets = null, int Value = 0, string CurrencyName = "")
+        public async Task SendMessage(Channel channel, string Message, Source source, User user = null, User[] Targets = null, uint Value = 0, string CurrencyName = "")
         {
             Message = replacePeramaters(Message, source, user, Targets, Value, CurrencyName);
             await SendMessage(channel, Message);
         }
 
-        public string replacePeramaters(string original,Source source,User Source=null,User[] Targets = null,int Value=0,string CurrencyName="")
+        public string replacePeramaters(string original,Source source,User Source=null,User[] Targets = null,uint Value=0,string CurrencyName="")
         {
             if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Id + ">"); 
             else original = original.Replace("{User}", "@" + Source?.Id);

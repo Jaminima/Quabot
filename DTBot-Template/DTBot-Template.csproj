@@ -11,8 +11,4 @@
     <PackageReference Include="TwitchLib" Version="3.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
 </Project>

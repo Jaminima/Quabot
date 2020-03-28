@@ -35,6 +35,11 @@ namespace DTBot_Template.Generics
 
         #region Methods
 
+        public bool Equals(User other)
+        {
+            return other.Id == this.Id && other.Name == this.Name;
+        }
+
         public async Task SendDM(string Message)
         {
             await discord_Source.SendMessageAsync(Message);

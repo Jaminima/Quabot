@@ -24,6 +24,8 @@ namespace DTBot_Template.Generics
         public Command(SocketMessage args) : base(args)
         {
             int CommEnd = body.IndexOf(' ');
+            if (CommEnd == -1) { CommEnd = body.Length; }
+
             commandStr = body.Substring(0, CommEnd).Substring(1);
             commandArgString = body.Substring(CommEnd);
             commandArgs = commandArgString.Split(' ');

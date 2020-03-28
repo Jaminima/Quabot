@@ -1,7 +1,10 @@
 ﻿using DTBot_Template;
 using DTBot_Template.Generics;
+using DTBot_Template.Data;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Test_App
 {
@@ -29,10 +32,15 @@ namespace Test_App
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
 
+        public static List<Bank> bankAccounts = new List<Bank>();
+
         #endregion Fields
 
         public static async Task HandleCommand(Command command, BaseBot Bot)
         {
+            Bank bank = bankAccounts.Find(x => x.user.Equals(command.sender));
+            if (bank == null) { bank = new Bank(command.sender, 1000); bankAccounts.Add(bank); }
+
             switch (command.commandStr)
             {
                 case "echo":
@@ -41,6 +49,10 @@ namespace Test_App
 
                 case "echodm":
                     await Bot.SendDM(command.sender, command.commandArgString);
+                    break;
+
+                case "bal":
+                    await Bot.SendMessage(command.channel, "{User} You Have {Value} {Currency}", command.Source, command.sender, Value: bank.balance, CurrencyName: "ShitCoin");
                     break;
             }
         }
