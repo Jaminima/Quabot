@@ -1,35 +1,37 @@
-﻿using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace DTBot_Template.Generics
 {
     public class BaseBot
     {
-        public Func<Message,BaseBot,Task> MessageHandler;
-        public Func<Command, BaseBot, Task> CommandHandler;
+        #region Fields
 
         protected readonly char Command;
+        public Func<Command, BaseBot, Task> CommandHandler;
+        public Func<Message, BaseBot, Task> MessageHandler;
+
+        #endregion Fields
+
+        #region Constructors
 
         public BaseBot(char Command = '!')
         {
             this.Command = Command;
         }
 
-        public async virtual Task SendMessage(Generics.Channel channel, string Message) { }
-    }
+        #endregion Constructors
 
-    public class BaseGeneric
-    {
-        private protected Source source;
-        public Source Source
+        #region Methods
+
+        public async virtual Task SendDM(User user, string Message)
         {
-            get { return Source; }
         }
-    }
 
-    public enum Source
-    {
-        Twitch, Discord
+        public async virtual Task SendMessage(Channel channel, string Message)
+        {
+        }
+
+        #endregion Methods
     }
 }

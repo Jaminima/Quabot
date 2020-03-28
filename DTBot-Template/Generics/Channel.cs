@@ -1,18 +1,19 @@
-﻿using TwitchLib.Client;
-using TwitchLib.Client.Enums;
-using TwitchLib.Client.Events;
-using TwitchLib.Client.Extensions;
-using TwitchLib.Client.Models;
-using Discord;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using System.Threading.Tasks;
+using TwitchLib.Client;
 
 namespace DTBot_Template.Generics
 {
-    public class Channel:BaseGeneric
+    public class Channel : BaseGeneric
     {
+        #region Fields
+
         private string ChannelName;
         private ISocketMessageChannel discord_Source;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Channel(string Channel)
         {
@@ -27,6 +28,10 @@ namespace DTBot_Template.Generics
             ChannelName = discord_Source.Name;
         }
 
+        #endregion Constructors
+
+        #region Methods
+
         public async Task SendMessage(string Message)
         {
             await discord_Source.SendMessageAsync(Message);
@@ -36,5 +41,7 @@ namespace DTBot_Template.Generics
         {
             _client.SendMessage(ChannelName, Message);
         }
+
+        #endregion Methods
     }
 }

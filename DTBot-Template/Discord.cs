@@ -1,35 +1,25 @@
-﻿using System;
+﻿using Discord;
+using Discord.WebSocket;
 using System.Threading;
 using System.Threading.Tasks;
-using Discord;
-using Discord.WebSocket;
 
 namespace DTBot_Template
 {
     public class Discord : Generics.BaseBot
     {
-        DiscordSocketClient _client;
+        #region Fields
 
-        public Discord(string token,char Command = '!'):base(Command)
-        {
-            _client = new DiscordSocketClient();
-            
-            _client.MessageReceived += MessageReceived;
+        private DiscordSocketClient _client;
 
-            new Thread(async () => await Start(token)).Start();
-        }
+        #endregion Fields
 
-        private async Task Start(string token)
-        {
-            await _client.LoginAsync(TokenType.Bot, token);
-            await _client.StartAsync();
-        }
+        #region Methods
 
         private async Task MessageReceived(SocketMessage args)
         {
             if (!args.Author.IsBot)
             {
-                if (args.Content[0]==Command)
+                if (args.Content[0] == Command)
                 {
                     Generics.Command command = new Generics.Command(args);
                     await CommandHandler(command, this);
@@ -40,6 +30,32 @@ namespace DTBot_Template
                     await MessageHandler(message, this);
                 }
             }
+        }
+
+        private async Task Start(string token)
+        {
+            await _client.LoginAsync(TokenType.Bot, token);
+            await _client.StartAsync();
+        }
+
+        #endregion Methods
+
+        #region Constructors
+
+        public Discord(string token, char Command = '!') : base(Command)
+        {
+            _client = new DiscordSocketClient();
+
+            _client.MessageReceived += MessageReceived;
+
+            new Thread(async () => await Start(token)).Start();
+        }
+
+        #endregion Constructors
+
+        public override async Task SendDM(Generics.User user, string Message)
+        {
+            await user.SendDM(Message);
         }
 
         public async override Task SendMessage(Generics.Channel channel, string Message)

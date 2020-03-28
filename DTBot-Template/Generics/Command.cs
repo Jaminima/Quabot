@@ -1,14 +1,18 @@
-﻿using TwitchLib.Client.Extensions;
+﻿using Discord.WebSocket;
 using TwitchLib.Client.Models;
-using Discord;
-using Discord.WebSocket;
 
 namespace DTBot_Template.Generics
 {
     public class Command : Message
     {
-        public readonly string commandStr, commandArgString;
+        #region Fields
+
         public readonly string[] commandArgs;
+        public readonly string commandStr, commandArgString;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Command(ChatCommand args) : base(args.ChatMessage)
         {
@@ -19,9 +23,12 @@ namespace DTBot_Template.Generics
 
         public Command(SocketMessage args) : base(args)
         {
-            commandStr = body.Substring(0,body.IndexOf(' '));
-            commandArgString = body.Substring(commandStr.Length);
+            int CommEnd = body.IndexOf(' ');
+            commandStr = body.Substring(0, CommEnd).Substring(1);
+            commandArgString = body.Substring(CommEnd);
             commandArgs = commandArgString.Split(' ');
         }
+
+        #endregion Constructors
     }
 }

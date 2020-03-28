@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DTBot_Template;
+﻿using DTBot_Template;
 using DTBot_Template.Generics;
+using System;
+using System.Threading.Tasks;
 
 namespace Test_App
 {
-    class Program
+    internal class Program
     {
-        public static DTBot_Template.Twitch tBot;
-        public static DTBot_Template.Discord dBot;
+        #region Methods
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            tBot = new Twitch("jccjaminima", "z321fi3bq2q9p6bgs5yn5pep7bz3sq", "jccjaminima");
+            tBot = new Twitch("tdrewardbot", "ipq91r9cehomlgftlrty4fha7ca8my", "jccjaminima");
             tBot.MessageHandler += HandleMessage;
             tBot.CommandHandler += HandleCommand;
 
@@ -26,10 +22,14 @@ namespace Test_App
             while (true) { Console.ReadLine(); }
         }
 
-        public static async Task HandleMessage(Message message, BaseBot Bot)
-        {
-            await Bot.SendMessage(message.channel,message.body);
-        }
+        #endregion Methods
+
+        #region Fields
+
+        public static DTBot_Template.Discord dBot;
+        public static DTBot_Template.Twitch tBot;
+
+        #endregion Fields
 
         public static async Task HandleCommand(Command command, BaseBot Bot)
         {
@@ -38,6 +38,18 @@ namespace Test_App
                 case "echo":
                     await Bot.SendMessage(command.channel, command.commandArgString);
                     break;
+
+                case "echodm":
+                    await Bot.SendDM(command.sender, command.commandArgString);
+                    break;
+            }
+        }
+
+        public static async Task HandleMessage(Message message, BaseBot Bot)
+        {
+            if (message.body.ToLower().StartsWith("i am") || message.body.ToLower().StartsWith("i'm"))
+            {
+                await Bot.SendMessage(message.channel, "Hi {User} Im Dad");
             }
         }
     }
