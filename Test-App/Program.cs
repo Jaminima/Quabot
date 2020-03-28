@@ -12,13 +12,20 @@ namespace Test_App
 
         private static void Main(string[] args)
         {
-            tBot = new Twitch("tdrewardbot", "ipq91r9cehomlgftlrty4fha7ca8my", "jccjaminima");
-            tBot.MessageHandler += HandleMessage;
-            tBot.CommandHandler += HandleCommand;
+            botConfig = BotConfig.Load();
+            if (botConfig == null) Console.WriteLine("Please fill the config file with valid details, and run again");
+            else
+            {
+                tBot = new Twitch(botConfig.twitch_Username, botConfig.twitch_token, botConfig.twitch_Channel);
+                tBot.MessageHandler += HandleMessage;
+                tBot.CommandHandler += HandleCommand;
 
-            dBot = new DTBot_Template.Discord("NjU4MjU0NzAyNzczMDEwNDUy.Xn8LvQ.gZPKusUqJv-dy9kk47lYPL7wadU");
-            dBot.MessageHandler += HandleMessage;
-            dBot.CommandHandler += HandleCommand;
+                dBot = new DTBot_Template.Discord(botConfig.discord_Token);
+                dBot.MessageHandler += HandleMessage;
+                dBot.CommandHandler += HandleCommand;
+
+                Console.WriteLine("Bots Started");
+            }
 
             while (true) { Console.ReadLine(); }
         }
@@ -27,6 +34,7 @@ namespace Test_App
 
         #region Fields
 
+        private static BotConfig botConfig;
         private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
