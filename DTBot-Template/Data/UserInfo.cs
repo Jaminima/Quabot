@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System;
-
-namespace DTBot_Template.Data
+﻿namespace DTBot_Template.Data
 {
     public class _userInfo
     {

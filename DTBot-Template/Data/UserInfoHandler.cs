@@ -1,13 +1,17 @@
-﻿using System;
+﻿using DTBot_Template.Generics;
 using System.Collections.Generic;
-using System.Text;
-using DTBot_Template.Generics;
 
 namespace DTBot_Template.Data
 {
     public class UserInfoHandler<T> where T : _userInfo, new()
     {
+        #region Fields
+
         private List<T> _infoCollection = new List<T>();
+
+        #endregion Fields
+
+        #region Methods
 
         public virtual void AddUser(T user)
         {
@@ -24,7 +28,7 @@ namespace DTBot_Template.Data
         public T[] FindUsers(User[] users)
         {
             T[] _uInfos = new T[users.Length];
-            
+
             for (int i = 0; i < users.Length; i++)
             {
                 _uInfos[i] = FindUser(users[i]);
@@ -32,5 +36,7 @@ namespace DTBot_Template.Data
 
             return _uInfos;
         }
+
+        #endregion Methods
     }
 }

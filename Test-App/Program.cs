@@ -27,10 +27,9 @@ namespace Test_App
 
         #region Fields
 
+        private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
-
-        private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
 
         #endregion Fields
 
@@ -50,8 +49,9 @@ namespace Test_App
                     break;
 
                 case "bal":
-                    if (command.mentions.Length == 0) await Bot.SendMessage(command.channel, "{User} You Have {Value} {Currency}", command.Source, command.sender, Value: bank.balance, CurrencyName: "ShitCoin");
-                    else await Bot.SendMessage(command.channel, "{User} {User0} Has {Value} {Currency}", command.Source, command.sender, command.mentions, Value: tBanks[0].balance, CurrencyName: "ShitCoin");
+
+                    if (command.mentions.Length == 0) await Bot.SendMessage(command, "{User} You Have {Value} {Currency}", bank.balance, "Shit Coin");
+                    else await Bot.SendMessage(command, "{User} {User0} Has {Value} {Currency}", tBanks[0].balance, "Shit Coin");
                     break;
 
                 case "pay":
@@ -61,11 +61,11 @@ namespace Test_App
                         {
                             bank.balance -= command.values[0];
                             tBanks[0].balance += command.values[0];
-                            await Bot.SendMessage(command.channel, "{User} Paid {Value} {Currency} To {User0}", command.Source, command.sender, command.mentions, command.values[0], "Shit Coin");
+                            await Bot.SendMessage(command, "{User} Paid {Value0} {Currency} To {User0}", CurrencyName: "Shit Coin");
                         }
-                        else await Bot.SendMessage(command.channel, "{User} You Only Have {Value} {Currency}", command.Source, command.sender, Value: bank.balance, CurrencyName: "Shit Coin");
+                        else await Bot.SendMessage(command, "{User} You Only Have {Value} {Currency}", bank.balance, CurrencyName: "Shit Coin");
                     }
-                    else await Bot.SendMessage(command.channel, "{User} You Fucked Up {NWord}", command.Source, command.sender);
+                    else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}");
                     break;
             }
         }
@@ -83,7 +83,7 @@ namespace Test_App
                     index = msg.IndexOf(iam) + iam.Length;
                     string newMsg = msg.Substring(index, msg.Length - index).Trim();
 
-                    await Bot.SendMessage(message.channel, $"Hi {newMsg}, Im Dad", message.Source, message.sender);
+                    await Bot.SendMessage(message, $"Hi {newMsg}, Im Dad");
                     break;
                 }
             }

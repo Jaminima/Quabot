@@ -53,7 +53,7 @@ namespace DTBot_Template.Generics
 
         public async Task SendDM(string Message, Twitch _client)
         {
-            _client._client.SendWhisper(Name, Message);
+            //_client._client.SendWhisper(Name, Message);
         }
 
         #endregion Methods

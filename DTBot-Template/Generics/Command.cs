@@ -1,7 +1,7 @@
 ﻿using Discord.WebSocket;
+using System.Collections.Generic;
 using System.Linq;
 using TwitchLib.Client.Models;
-using System.Collections.Generic;
 
 namespace DTBot_Template.Generics
 {
@@ -17,6 +17,25 @@ namespace DTBot_Template.Generics
         #endregion Fields
 
         #region Constructors
+
+        private User[] GetMentions()
+        {
+            string[] _mentions = commandArgs.Where(x => x.StartsWith("<@") && x.EndsWith(">") || x.StartsWith("@")).ToArray();
+            User[] mentions = new User[_mentions.Length];
+            for (int i = 0; i < mentions.Length; i++) { mentions[i] = new User(_mentions[i], source); }
+            return mentions;
+        }
+
+        private uint[] GetValues()
+        {
+            uint tInt;
+            List<uint> uints = new List<uint>();
+            foreach (string s in commandArgs)
+            {
+                if (uint.TryParse(s, out tInt)) uints.Add(tInt);
+            }
+            return uints.ToArray();
+        }
 
         public Command(ChatCommand args) : base(args.ChatMessage)
         {
@@ -41,25 +60,6 @@ namespace DTBot_Template.Generics
 
             this.mentions = GetMentions();
             this.values = GetValues();
-        }
-
-        private uint[] GetValues()
-        {
-            uint tInt;
-            List<uint> uints = new List<uint>();
-            foreach (string s in commandArgs)
-            {
-                if (uint.TryParse(s, out tInt)) uints.Add(tInt);
-            }
-            return uints.ToArray();
-        }
-
-        private User[] GetMentions()
-        {
-            string[] _mentions = commandArgs.Where(x => x.StartsWith("<@") && x.EndsWith(">")||x.StartsWith("@")).ToArray();
-            User[] mentions = new User[_mentions.Length];
-            for (int i = 0; i < mentions.Length; i++) { mentions[i] = new User(_mentions[i], source); }
-            return mentions;
         }
 
         #endregion Constructors
