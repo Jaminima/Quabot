@@ -16,20 +16,9 @@ namespace DTBot_Template.Generics
         private ChatMessage twitch_Source;
         private SocketMessage discord_Source;
 
-        private string body;
+        public readonly string body;
 
-        private Channel channel;
-
-        public Channel Channel
-        {
-            get { return channel; }
-        }
-
-        public string Body
-        {
-            get { return body; }
-        }
-        
+        public readonly Channel channel;
 
         public Message(ChatMessage args)
         {

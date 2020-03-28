@@ -10,10 +10,10 @@ namespace DTBot_Template
     {
         DiscordSocketClient _client;
 
-        public Discord(string token)
+        public Discord(string token,char Command = '!'):base(Command)
         {
             _client = new DiscordSocketClient();
-
+            
             _client.MessageReceived += MessageReceived;
 
             new Thread(async () => await Start(token)).Start();
@@ -29,8 +29,16 @@ namespace DTBot_Template
         {
             if (!args.Author.IsBot)
             {
-                Generics.Message message = new Generics.Message(args);
-                await MessageHandler(message, this);
+                if (args.Content[0]==Command)
+                {
+                    Generics.Command command = new Generics.Command(args);
+                    await CommandHandler(command, this);
+                }
+                else
+                {
+                    Generics.Message message = new Generics.Message(args);
+                    await MessageHandler(message, this);
+                }
             }
         }
 

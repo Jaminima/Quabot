@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DTBot_Template;
+using DTBot_Template.Generics;
 
 namespace Test_App
 {
@@ -16,16 +17,28 @@ namespace Test_App
         {
             tBot = new Twitch("jccjaminima", "z321fi3bq2q9p6bgs5yn5pep7bz3sq", "jccjaminima");
             tBot.MessageHandler += HandleMessage;
+            tBot.CommandHandler += HandleCommand;
 
-            dBot = new Discord("NjU4MjU0NzAyNzczMDEwNDUy.Xn8LvQ.gZPKusUqJv-dy9kk47lYPL7wadU");
+            dBot = new DTBot_Template.Discord("NjU4MjU0NzAyNzczMDEwNDUy.Xn8LvQ.gZPKusUqJv-dy9kk47lYPL7wadU");
             dBot.MessageHandler += HandleMessage;
+            dBot.CommandHandler += HandleCommand;
 
             while (true) { Console.ReadLine(); }
         }
 
-        public static async Task HandleMessage(DTBot_Template.Generics.Message message, DTBot_Template.Generics.BaseBot Bot)
+        public static async Task HandleMessage(Message message, BaseBot Bot)
         {
-            await Bot.SendMessage(message.Channel,message.Body);
+            await Bot.SendMessage(message.channel,message.body);
+        }
+
+        public static async Task HandleCommand(Command command, BaseBot Bot)
+        {
+            switch (command.commandStr)
+            {
+                case "echo":
+                    await Bot.SendMessage(command.channel, command.commandArgString);
+                    break;
+            }
         }
     }
 }
