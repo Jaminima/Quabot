@@ -59,6 +59,7 @@ namespace Test_App
                     break;
 
                 case "WTF":
+                    Streamlabs.CreateDonation("Jamm", 1, botConfig.Streamlabs);
                     await Bot.SendMessage(command.channel, Streamlabs.GetDonations(botConfig.Streamlabs).ToString());
                     break;
 

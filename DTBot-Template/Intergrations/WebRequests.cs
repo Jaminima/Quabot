@@ -13,6 +13,7 @@ namespace DTBot_Template.Intergrations
         {
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(URL);
             req.Method = Method;
+            req.ContentType = "application/x-www-form-urlencoded";
 
             if (Headers != null)
             {
@@ -31,7 +32,9 @@ namespace DTBot_Template.Intergrations
                 streamReq.Close();
             }
 
-            WebResponse resp = req.GetResponse();
+            WebResponse resp;
+            try { resp = req.GetResponse(); }
+            catch (Exception e) { Console.WriteLine(e); return null; }
 
             StreamReader streamRes = new StreamReader(resp.GetResponseStream());
             string Data = streamRes.ReadToEnd();
