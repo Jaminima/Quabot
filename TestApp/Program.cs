@@ -5,9 +5,9 @@ using DTBot_Template.Intergrations;
 using System;
 using System.Threading.Tasks;
 
-namespace Test_App
+namespace TestApp
 {
-    internal class Program
+    class Program
     {
         #region Fields
 

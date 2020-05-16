@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTBot-Template", "DTBot-Template\DTBot-Template.csproj", "{8EB6829C-2102-4822-BEDC-2A2FD5CA05A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTBot-Template", "DTBot-Template\DTBot-Template.csproj", "{8EB6829C-2102-4822-BEDC-2A2FD5CA05A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-App", "Test-App\Test-App.csproj", "{C53E6BDD-F6EC-4849-AD60-EF2001858F61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{7F245A2F-9574-4092-B45C-F5291728A88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{8EB6829C-2102-4822-BEDC-2A2FD5CA05A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EB6829C-2102-4822-BEDC-2A2FD5CA05A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EB6829C-2102-4822-BEDC-2A2FD5CA05A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C53E6BDD-F6EC-4849-AD60-EF2001858F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C53E6BDD-F6EC-4849-AD60-EF2001858F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C53E6BDD-F6EC-4849-AD60-EF2001858F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C53E6BDD-F6EC-4849-AD60-EF2001858F61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F245A2F-9574-4092-B45C-F5291728A88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F245A2F-9574-4092-B45C-F5291728A88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F245A2F-9574-4092-B45C-F5291728A88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F245A2F-9574-4092-B45C-F5291728A88E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

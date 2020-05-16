@@ -1,6 +1,6 @@
 ﻿using DTBot_Template.Data;
 
-namespace Test_App
+namespace TestApp
 {
     public class ExtendedUser : _userInfo
     {
