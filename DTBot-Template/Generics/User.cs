@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TwitchLib.Client.Models;
 
@@ -17,23 +18,29 @@ namespace DTBot_Template.Generics
 
         #region Constructors
 
-        public User(ChatMessage args)
+        [JsonConstructor]
+        public User(string Name, string Id, Source source) : base(source)
+        {
+            this.Name = Name;
+            this.Id = Id;
+        }
+
+        public User(ChatMessage args) : base(Source.Twitch)
         {
             Name = args.Username;
             Id = args.UserId;
         }
 
-        public User(SocketUser args)
+        public User(SocketUser args) : base(Source.Discord)
         {
             discord_Source = args;
             Name = args.Username;
             Id = args.Id.ToString();
         }
 
-        public User(string Mention, Source source)
+        public User(string Mention, Source source) : base(source)
         {
-            Mention = Mention.Substring(2, Mention.Length - 3).Replace("!", "");
-            if (source == Source.Discord) Id = Mention;
+            if (source == Source.Discord) Id = Mention.Substring(2, Mention.Length - 3).Replace("!", "");
             else Name = Mention.Substring(1);
         }
 

@@ -15,6 +15,10 @@ namespace DTBot_Template.Generics
 
         #region Constructors
 
+        public Channel()
+        {
+        }
+
         public Channel(string Channel)
         {
             source = Source.Twitch;

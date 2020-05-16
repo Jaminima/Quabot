@@ -1,5 +1,7 @@
 ﻿using DTBot_Template.Generics;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DTBot_Template.Data
 {
@@ -35,6 +37,16 @@ namespace DTBot_Template.Data
             }
 
             return _uInfos;
+        }
+
+        public void Load()
+        {
+            if (File.Exists("./Data/Memory.json")) _infoCollection = JArray.Parse(File.ReadAllText("./Data/Memory.json")).ToObject<List<T>>();
+        }
+
+        public void Save()
+        {
+            File.WriteAllText("./Data/Memory.json", JArray.FromObject(_infoCollection).ToString());
         }
 
         #endregion Methods

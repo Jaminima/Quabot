@@ -13,6 +13,19 @@
 
         #endregion Fields
 
+        #region Constructors
+
+        public BaseGeneric()
+        {
+        }
+
+        public BaseGeneric(Source source)
+        {
+            this.source = source;
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         public Source Source

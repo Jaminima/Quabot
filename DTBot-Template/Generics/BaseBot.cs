@@ -27,7 +27,7 @@ namespace DTBot_Template.Generics
         public string replacePeramaters(string original, Source source, User Source = null, User[] Targets = null, uint[] Values = null, uint Value = 0, string CurrencyName = "")
         {
             if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Id + ">");
-            else original = original.Replace("{User}", "@" + Source?.Id);
+            else original = original.Replace("{User}", "@" + Source?.Name);
 
             original = original.Replace("{Currency}", CurrencyName);
             original = original.Replace("{Value}", Value.ToString());
@@ -50,12 +50,6 @@ namespace DTBot_Template.Generics
         {
         }
 
-        public async virtual Task SendMessage(Channel channel, string Message)
-        {
-        }
-
-        #region Send Overloads
-
         public async Task SendDM(User user, string Message, Source source, User[] Targets = null, uint[] Values = null, uint Value = 0, string CurrencyName = "")
         {
             Message = replacePeramaters(Message, source, user, Targets, Values, Value, CurrencyName);
@@ -72,6 +66,10 @@ namespace DTBot_Template.Generics
         {
             Message = replacePeramaters(Message, _message.Source, _message.sender, Value: Value, CurrencyName: CurrencyName);
             await SendDM(_message.sender, Message);
+        }
+
+        public async virtual Task SendMessage(Channel channel, string Message)
+        {
         }
 
         public async Task SendMessage(Channel channel, string Message, Source source, User user = null, User[] Targets = null, uint[] Values = null, uint Value = 0, string CurrencyName = "")
@@ -91,8 +89,6 @@ namespace DTBot_Template.Generics
             Message = replacePeramaters(Message, _message.Source, _message.sender, Value: Value, CurrencyName: CurrencyName);
             await SendMessage(_message.channel, Message);
         }
-
-        #endregion Send Overloads
 
         #endregion Methods
     }

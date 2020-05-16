@@ -7,16 +7,7 @@ namespace DTBot_Template.Generics
 {
     public class Command : Message
     {
-        #region Fields
-
-        public readonly string[] commandArgs;
-        public readonly string commandStr, commandArgString;
-        public readonly User[] mentions;
-        public readonly uint[] values;
-
-        #endregion Fields
-
-        #region Constructors
+        #region Methods
 
         private User[] GetMentions()
         {
@@ -35,6 +26,23 @@ namespace DTBot_Template.Generics
                 if (uint.TryParse(s, out tInt)) uints.Add(tInt);
             }
             return uints.ToArray();
+        }
+
+        #endregion Methods
+
+        #region Fields
+
+        public readonly string[] commandArgs;
+        public readonly string commandStr, commandArgString;
+        public readonly User[] mentions;
+        public readonly uint[] values;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public Command()
+        {
         }
 
         public Command(ChatCommand args) : base(args.ChatMessage)

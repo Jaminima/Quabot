@@ -17,6 +17,10 @@ namespace DTBot_Template.Generics
 
         #region Constructors
 
+        public Message()
+        {
+        }
+
         public Message(ChatMessage args)
         {
             source = Source.Twitch;

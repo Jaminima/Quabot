@@ -9,6 +9,14 @@ namespace Test_App
 {
     internal class Program
     {
+        #region Fields
+
+        private static BotConfig botConfig;
+
+        private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
+
+        #endregion Fields
+
         #region Methods
 
         private static void Main(string[] args)
@@ -26,6 +34,8 @@ namespace Test_App
                 dBot.MessageHandler += HandleMessage;
                 dBot.CommandHandler += HandleCommand;
 
+                infoHandler.Load();
+
                 Console.WriteLine("Bots Started");
             }
 
@@ -34,14 +44,8 @@ namespace Test_App
 
         #endregion Methods
 
-        #region Fields
-
-        private static BotConfig botConfig;
-        private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
-
-        #endregion Fields
 
         public static async Task HandleCommand(Command command, BaseBot Bot)
         {
@@ -83,6 +87,8 @@ namespace Test_App
                     else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}");
                     break;
             }
+
+            infoHandler.Save();
         }
 
         public static async Task HandleMessage(Message message, BaseBot Bot)

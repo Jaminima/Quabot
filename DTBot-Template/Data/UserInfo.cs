@@ -10,6 +10,10 @@
 
         #region Constructors
 
+        public _userInfo()
+        {
+        }
+
         public _userInfo(Generics.User _user)
         {
             this.user = _user;

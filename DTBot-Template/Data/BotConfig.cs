@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
-using Newtonsoft.Json.Linq;
 
 namespace DTBot_Template.Data
 {
     public class BotConfig
     {
-        public string twitch_Username, twitch_token, twitch_Channel, discord_Token;
-
-        public OAuth Streamlabs;
+        #region Fields
 
         private const string conf_Path = "./Data/Config.json";
+        public OAuth Streamlabs;
+        public string twitch_Username, twitch_token, twitch_Channel, discord_Token;
 
-        public void Save()
-        {
-            File.WriteAllText(conf_Path, JToken.FromObject(this).ToString());
-        }
+        #endregion Fields
+
+        #region Methods
 
         public static BotConfig Load()
         {
@@ -29,11 +26,22 @@ namespace DTBot_Template.Data
             }
             return null;
         }
+
+        public void Save()
+        {
+            File.WriteAllText(conf_Path, JToken.FromObject(this).ToString());
+        }
+
+        #endregion Methods
     }
 
     public class OAuth
     {
+        #region Fields
+
         public string Token, client_Id, client_Secret, token_type;
         public bool TokenIsRefresh = false;
+
+        #endregion Fields
     }
 }

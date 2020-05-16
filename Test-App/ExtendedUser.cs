@@ -12,7 +12,7 @@ namespace Test_App
 
         #region Constructors
 
-        public ExtendedUser() : base(null)
+        public ExtendedUser()
         {
         }
 
