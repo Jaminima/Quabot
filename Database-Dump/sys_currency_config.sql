@@ -30,7 +30,7 @@ CREATE TABLE `currency_config` (
   UNIQUE KEY `cur_id_UNIQUE` (`cur_id`),
   KEY `currency owner_idx` (`str_owner`),
   CONSTRAINT `currency owner` FOREIGN KEY (`str_owner`) REFERENCES `streamer_account` (`str_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

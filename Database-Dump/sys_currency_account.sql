@@ -32,7 +32,7 @@ CREATE TABLE `currency_account` (
   UNIQUE KEY `acc_id_UNIQUE` (`acc_id`),
   KEY `currency_idx` (`cur_id`),
   CONSTRAINT `acc_cur` FOREIGN KEY (`cur_id`) REFERENCES `currency_config` (`cur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

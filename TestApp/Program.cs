@@ -1,5 +1,6 @@
 ﻿using DTBot_Template;
 using DTBot_Template.Data;
+using DTBot_Template.Data._MySQL;
 using DTBot_Template.Generics;
 using DTBot_Template.Intergrations;
 using System;
@@ -33,6 +34,8 @@ namespace TestApp
                 dBot = new DTBot_Template.Discord(botConfig.discord_Token);
                 dBot.MessageHandler += HandleMessage;
                 dBot.CommandHandler += HandleCommand;
+
+                SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
 
                 infoHandler.Load();
 
