@@ -25,13 +25,13 @@ namespace DTBot_Template.Data
             return new object[] { Id, null, name };
         }
 
-        public override void Update()
-        {
-            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
-                new Tuple<string, object>("@0", name),
-                new Tuple<string, object>("@1", Id)
-            };
-            SQL.pubInstance.Execute("UPDATE currency_config SET currency_name = @0 WHERE currency_id=@1", Params);
-        }
+        //public override void Update()
+        //{
+        //    List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+        //        new Tuple<string, object>("@0", name),
+        //        new Tuple<string, object>("@1", Id)
+        //    };
+        //    SQL.pubInstance.Execute("UPDATE currency_config SET currency_name = @0 WHERE currency_id=@1", Params);
+        //}
     }
 }
