@@ -37,6 +37,8 @@ namespace TestApp
 
                 SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
 
+                var t = _userInfo.FromTable<_userInfo>("currency_account");
+
                 infoHandler.Load();
 
                 Console.WriteLine("Bots Started");

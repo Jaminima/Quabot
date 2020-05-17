@@ -5,8 +5,9 @@ namespace DTBot_Template.Data._MySQL
 {
         public class SQLObj
         {
-            #region Fields
+        #region Fields
 
+            private protected uint Id;
             private protected string Table;
 
             #endregion Fields
