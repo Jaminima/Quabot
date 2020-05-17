@@ -7,7 +7,7 @@ namespace DTBot_Template.Data._MySQL
         {
         #region Fields
 
-            private protected uint Id;
+            public protected uint Id;
             private protected string Table;
 
             #endregion Fields

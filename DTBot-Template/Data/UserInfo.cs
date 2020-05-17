@@ -1,4 +1,5 @@
 ﻿using DTBot_Template.Data._MySQL;
+using DTBot_Template.Generics;
 using System;
 using System.Collections.Generic;
 
@@ -48,6 +49,25 @@ namespace DTBot_Template.Data
                 new Tuple<string, object>("@1", Id)
             };
             SQL.pubInstance.Execute("UPDATE currency_account SET currency_balance = @0 WHERE account_id=@1", Params);
+        }
+
+        public static _userInfo Find(User user, uint curid)
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", user.Id),
+                new Tuple<string, object>("@1", user.Name),
+                new Tuple<string, object>("@2", user.Source),
+                new Tuple<string, object>("@3", curid)
+            };
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_account WHERE (dt_id = @0 OR dt_name = @1) AND dt_source = @2 AND currency_id = @3",Params);
+
+            if (Data.Count == 0) return null;
+
+            _userInfo u = new _userInfo();
+
+            u.SetValues(Data[0]);
+
+            return u;
         }
 
         #endregion Constructors

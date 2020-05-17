@@ -25,6 +25,22 @@ namespace DTBot_Template.Data
             return new object[] { Id, null, name };
         }
 
+        public static CurrencyConfig Find(uint curid)
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", curid)
+            };
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_config WHERE currency_id = @0", Params);
+
+            if (Data.Count == 0) return null;
+
+            CurrencyConfig u = new CurrencyConfig();
+
+            u.SetValues(Data[0]);
+
+            return u;
+        }
+
         //public override void Update()
         //{
         //    List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
