@@ -1,5 +1,6 @@
-﻿using TwitchLib.Api.Helix.Models.Users;
+﻿using DTBot_Template.Data._MySQL;
 using System;
+using System.Collections.Generic;
 
 namespace DTBot_Template.Data
 {
@@ -32,6 +33,21 @@ namespace DTBot_Template.Data
             balance = uint.Parse(Data[2].ToString());
 
             user = new Generics.User(Data[4].ToString(),Data[3].ToString(),(Generics.Source)Convert.ToInt32(Data[5]));
+        }
+
+        public override object[] GetValues(bool IncludeProtected = true)
+        {
+            if (IncludeProtected) return new object[] { Id, currency, balance, user.Id, user.Name, user.Source };
+            else return new object[] { null, currency, balance, user.Id, user.Name, user.Source };
+        }
+
+        public override void Update()
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", balance),
+                new Tuple<string, object>("@1", Id)
+            };
+            SQL.pubInstance.Execute("UPDATE currency_account SET currency_balance = @0 WHERE account_id=@1", Params);
         }
 
         #endregion Constructors
