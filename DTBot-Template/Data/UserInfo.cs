@@ -5,6 +5,7 @@
         #region Fields
 
         public Generics.User user;
+        public uint balance = 1000;
 
         #endregion Fields
 

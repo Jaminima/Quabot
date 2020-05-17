@@ -14,7 +14,7 @@ namespace TestApp
 
         private static BotConfig botConfig;
 
-        private static UserInfoHandler<ExtendedUser> infoHandler = new UserInfoHandler<ExtendedUser>();
+        private static UserInfoHandler<_userInfo> infoHandler = new UserInfoHandler<_userInfo>();
 
         #endregion Fields
 
@@ -52,8 +52,8 @@ namespace TestApp
 
         public static async Task HandleCommand(Command command, BaseBot Bot)
         {
-            ExtendedUser[] tBanks = infoHandler.FindUsers(command.mentions);
-            ExtendedUser bank = infoHandler.FindUser(command.sender);
+            _userInfo[] tBanks = infoHandler.FindUsers(command.mentions);
+            _userInfo bank = infoHandler.FindUser(command.sender);
 
             switch (command.commandStr)
             {
