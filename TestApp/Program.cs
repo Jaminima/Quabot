@@ -69,8 +69,8 @@ namespace TestApp
 
                 case "bal":
 
-                    if (command.mentions.Length == 0) await Bot.SendMessage(command, "{User} You Have {Value} {Currency}", bank.balance, "Shit Coin");
-                    else await Bot.SendMessage(command, "{User} {User0} Has {Value} {Currency}", tBanks[0].balance, "Shit Coin");
+                    if (command.mentions.Length == 0) await Bot.SendMessage(command, "{User} You Have {Value} {Currency}", bank.balance, currency.name);
+                    else await Bot.SendMessage(command, "{User} {User0} Has {Value} {Currency}", tBanks[0].balance, currency.name);
                     break;
 
                 case "pay":
@@ -82,9 +82,9 @@ namespace TestApp
                             tBanks[0].balance += command.values[0];
                             bank.Update();
                             tBanks[0].Update();
-                            await Bot.SendMessage(command, "{User} Paid {Value0} {Currency} To {User0}", CurrencyName: "Shit Coin");
+                            await Bot.SendMessage(command, "{User} Paid {Value0} {Currency} To {User0}", CurrencyName: currency.name);
                         }
-                        else await Bot.SendMessage(command, "{User} You Only Have {Value} {Currency}", bank.balance, CurrencyName: "Shit Coin");
+                        else await Bot.SendMessage(command, "{User} You Only Have {Value} {Currency}", bank.balance, CurrencyName: currency.name);
                     }
                     else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}");
                     break;

@@ -56,7 +56,7 @@ namespace DTBot_Template.Data
 
         public static _userInfo FindUser(User user, uint curid)
         {
-            _userInfo _uInfo = _userCache.Find(x => x.user.Equals(user));
+            _userInfo _uInfo = _userCache.Find(x => x.user.Equals(user) && x.currency==curid);
 
             if (_uInfo == null) { 
                 _uInfo = _userInfo.Find(user, curid);

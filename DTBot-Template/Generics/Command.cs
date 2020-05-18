@@ -13,10 +13,10 @@ namespace DTBot_Template.Generics
 
         private bool IsValidMention(string Mention)
         {
-            Mention.Replace("!", "");
-            Mention.Replace("<@", "@");
+            Mention = Mention.Replace("!", "");
+            Mention = Mention.Replace("<@", "@");
 
-            if (source == Source.Discord && Mention.Count(x => Nums.Contains(x)) < 2 && Mention.EndsWith(">")) return true;
+            if (source == Source.Discord && Mention.Count(x => !Nums.Contains(x)) == 2 && Mention.EndsWith(">")) return true;
 
             if (source == Source.Twitch && Mention.StartsWith("@")) return true;
 
