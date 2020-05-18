@@ -9,11 +9,25 @@ namespace DTBot_Template.Generics
     {
         #region Methods
 
+        private string Nums = "0123456789";
+
+        private bool IsValidMention(string Mention)
+        {
+            Mention.Replace("!", "");
+            Mention.Replace("<@", "@");
+
+            if (source == Source.Discord && Mention.Count(x => Nums.Contains(x)) < 2 && Mention.EndsWith(">")) return true;
+
+            if (source == Source.Twitch && Mention.StartsWith("@")) return true;
+
+            return false;
+        }
+
         private User[] GetMentions()
         {
-            string[] _mentions = commandArgs.Where(x => x.StartsWith("<@") && x.EndsWith(">") || x.StartsWith("@")).ToArray();
+            string[] _mentions = commandArgs.Where(x => IsValidMention(x)).ToArray();
             User[] mentions = new User[_mentions.Length];
-            for (int i = 0; i < mentions.Length; i++) { mentions[i] = new User(_mentions[i], source); }
+            for (int i = 0; i < mentions.Length; i++) { mentions[i] = new User(_mentions[i], source,"THIS FORCES MENTIONS"); }
             return mentions;
         }
 
