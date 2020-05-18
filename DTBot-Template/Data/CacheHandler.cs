@@ -1,6 +1,8 @@
 ﻿using DTBot_Template.Data._MySQL;
 using DTBot_Template.Generics;
+using MySqlX.XDevAPI.CRUD;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,21 +13,31 @@ namespace DTBot_Template.Data
         #region Fields
 
         private static List<_userInfo> _userCache = new List<_userInfo>();
-        private static List<CurrencyConfig> _currencyCache = new List<CurrencyConfig>();
-        private static List<CurrencyParticipant> _currencyParticipantCache = new List<CurrencyParticipant>();
+        private static Dictionary<CurrencyConfig, DateTime> _currencyCache = new Dictionary<CurrencyConfig, DateTime>();
+        private static Dictionary<CurrencyParticipant, DateTime> _currencyParticipantCache = new Dictionary<CurrencyParticipant, DateTime>();
 
         #endregion Fields
 
         #region Methods
 
+        private static T Find<T>(Dictionary<T,DateTime> Cache, Func<T,bool> Pred)
+        {
+            foreach (T Key in Cache.Keys)
+            {
+                if ((DateTime.Now - Cache[Key]).TotalSeconds > 60) Cache.Remove(Key);
+                else if (Pred(Key)) return Key;
+            }
+            return default(T);
+        }
+
         public static CurrencyConfig FindCurrency(uint curid)
         {
-            CurrencyConfig _currency = _currencyCache.Find(x => x.Id == curid);
+            CurrencyConfig _currency = Find(_currencyCache,x => x.Id == curid);
 
             if (_currency == null)
             {
                 _currency = CurrencyConfig.Find(curid);
-                if (_currency != null) _currencyCache.Add(_currency);
+                if (_currency != null) _currencyCache.Add(_currency,DateTime.Now);
             }
 
             return _currency;
@@ -33,14 +45,14 @@ namespace DTBot_Template.Data
 
         public static CurrencyConfig FindCurrency(string Source, Source source)
         {
-            CurrencyParticipant _participant = _currencyParticipantCache.Find(x => (x.discord_guild == Source && source==Generics.Source.Discord) || (x.twitch_name == Source && source == Generics.Source.Twitch));
+            CurrencyParticipant _participant = Find(_currencyParticipantCache, x => (x.discord_guild == Source && source==Generics.Source.Discord) || (x.twitch_name == Source && source == Generics.Source.Twitch));
 
             if (_participant == null)
             {
                 if (source == Generics.Source.Discord) _participant = CurrencyParticipant.FindDiscord(Source);
                 else _participant = CurrencyParticipant.FindTwitch(Source);
 
-                if (_participant != null) _currencyParticipantCache.Add(_participant);
+                if (_participant != null) _currencyParticipantCache.Add(_participant, DateTime.Now);
             }
 
             return FindCurrency(_participant.currencyid);
