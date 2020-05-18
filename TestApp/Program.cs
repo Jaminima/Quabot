@@ -63,7 +63,7 @@ namespace TestApp
                     break;
 
                 case "WTF":
-                    Streamlabs.CreateDonation("Jamm", 1, botConfig.Streamlabs);
+                    //Streamlabs.CreateDonation("Jamm", 1, botConfig.Streamlabs);
                     await Bot.SendMessage(command.channel, Streamlabs.GetDonations(botConfig.Streamlabs).ToString());
                     break;
 
@@ -80,6 +80,8 @@ namespace TestApp
                         {
                             bank.balance -= command.values[0];
                             tBanks[0].balance += command.values[0];
+                            bank.Update();
+                            tBanks[0].Update();
                             await Bot.SendMessage(command, "{User} Paid {Value0} {Currency} To {User0}", CurrencyName: "Shit Coin");
                         }
                         else await Bot.SendMessage(command, "{User} You Only Have {Value} {Currency}", bank.balance, CurrencyName: "Shit Coin");

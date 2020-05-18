@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.WebSocket;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TwitchLib.Client.Models;
 
@@ -12,36 +11,39 @@ namespace DTBot_Template.Generics
 
         private SocketUser discord_Source;
 
-        public readonly string Name, Id;
+        public readonly string Twitch_Name, Discord_Id;
 
         #endregion Fields
 
         #region Constructors
 
-        [JsonConstructor]
         public User(string Name, string Id, Source source) : base(source)
         {
-            this.Name = Name;
-            this.Id = Id;
+            this.Twitch_Name = Name;
+            this.Discord_Id = Id;
+        }
+
+        public User(string Identifier, Source source) : base(source)
+        {
+            if (Source.Discord == source) this.Discord_Id = Identifier;
+            else this.Twitch_Name = Identifier;
         }
 
         public User(ChatMessage args) : base(Source.Twitch)
         {
-            Name = args.Username;
-            Id = args.UserId;
+            Twitch_Name = args.Username;
         }
 
         public User(SocketUser args) : base(Source.Discord)
         {
             discord_Source = args;
-            Name = args.Username;
-            Id = args.Id.ToString();
+            Discord_Id = args.Id.ToString();
         }
 
-        public User(string Mention, Source source) : base(source)
+        public User(string Mention, Source source, string M) : base(source)
         {
-            if (source == Source.Discord) Id = Mention.Substring(2, Mention.Length - 3).Replace("!", "");
-            else Name = Mention.Substring(1);
+            if (source == Source.Discord) Discord_Id = Mention.Substring(2, Mention.Length - 3).Replace("!", "");
+            else Twitch_Name = Mention.Substring(1);
         }
 
         #endregion Constructors
@@ -50,7 +52,7 @@ namespace DTBot_Template.Generics
 
         public bool Equals(User other)
         {
-            return other.Id == this.Id || other.Name == this.Name;
+            return other.Discord_Id == this.Discord_Id || other.Twitch_Name == this.Twitch_Name;
         }
 
         public async Task SendDM(string Message)

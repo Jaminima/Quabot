@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: sys
+-- Host: 134.122.111.200    Database: sys
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	5.7.30-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `streamer_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `streamer_account` (
-  `str_id` int NOT NULL AUTO_INCREMENT,
+  `streamer_id` int(11) NOT NULL AUTO_INCREMENT,
   `twitch_email` varchar(128) NOT NULL,
-  PRIMARY KEY (`str_id`),
-  UNIQUE KEY `str_id_UNIQUE` (`str_id`),
+  PRIMARY KEY (`streamer_id`),
+  UNIQUE KEY `str_id_UNIQUE` (`streamer_id`),
   UNIQUE KEY `twitch_email_UNIQUE` (`twitch_email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `streamer_account` (
 
 LOCK TABLES `streamer_account` WRITE;
 /*!40000 ALTER TABLE `streamer_account` DISABLE KEYS */;
+INSERT INTO `streamer_account` VALUES (1,'osc.d');
 /*!40000 ALTER TABLE `streamer_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-17  9:16:34
+-- Dump completed on 2020-05-18 11:55:13

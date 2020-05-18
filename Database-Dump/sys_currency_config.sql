@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: sys
+-- Host: 134.122.111.200    Database: sys
 -- ------------------------------------------------------
--- Server version	8.0.19
+-- Server version	5.7.30-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,14 +23,14 @@ DROP TABLE IF EXISTS `currency_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `currency_config` (
-  `cur_id` int NOT NULL AUTO_INCREMENT,
-  `str_owner` int NOT NULL,
-  `cur_name` varchar(16) NOT NULL DEFAULT 'tokens',
-  PRIMARY KEY (`cur_id`),
-  UNIQUE KEY `cur_id_UNIQUE` (`cur_id`),
-  KEY `currency owner_idx` (`str_owner`),
-  CONSTRAINT `currency owner` FOREIGN KEY (`str_owner`) REFERENCES `streamer_account` (`str_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `currency_id` int(11) NOT NULL AUTO_INCREMENT,
+  `streamer_id` int(11) NOT NULL,
+  `currency_name` varchar(16) NOT NULL DEFAULT 'tokens',
+  PRIMARY KEY (`currency_id`),
+  UNIQUE KEY `cur_id_UNIQUE` (`currency_id`),
+  KEY `currency owner_idx` (`streamer_id`),
+  CONSTRAINT `currency owner` FOREIGN KEY (`streamer_id`) REFERENCES `streamer_account` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `currency_config` (
 
 LOCK TABLES `currency_config` WRITE;
 /*!40000 ALTER TABLE `currency_config` DISABLE KEYS */;
+INSERT INTO `currency_config` VALUES (1,1,'JamCoin');
 /*!40000 ALTER TABLE `currency_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-17  9:16:34
+-- Dump completed on 2020-05-18 11:55:14

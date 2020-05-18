@@ -46,10 +46,12 @@ namespace DTBot_Template.Data
             return FindCurrency(_participant.currencyid);
         }
 
-        public static void AddUser(_userInfo user)
+        public static _userInfo AddUser(_userInfo user)
         {
             user.Insert();
+            user = _userInfo.Find(user.user, user.currency);
             _userCache.Add(user);
+            return user;
         }
 
         public static _userInfo FindUser(User user, uint curid)
@@ -63,8 +65,8 @@ namespace DTBot_Template.Data
 
             if (_uInfo == null) {
                 _uInfo = new _userInfo(user);
-                AddUser(_uInfo);
-                _uInfo.Insert();
+                _uInfo.currency = curid;
+                return AddUser(_uInfo);
             }
 
             return _uInfo;

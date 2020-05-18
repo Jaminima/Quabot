@@ -26,8 +26,8 @@ namespace DTBot_Template.Generics
 
         public string replacePeramaters(string original, Source source, User Source = null, User[] Targets = null, uint[] Values = null, uint Value = 0, string CurrencyName = "")
         {
-            if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Id + ">");
-            else original = original.Replace("{User}", "@" + Source?.Name);
+            if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Discord_Id + ">");
+            else original = original.Replace("{User}", "@" + Source?.Twitch_Name);
 
             original = original.Replace("{Currency}", CurrencyName);
             original = original.Replace("{Value}", Value.ToString());
@@ -39,8 +39,8 @@ namespace DTBot_Template.Generics
 
             for (int i = 0; i < Targets?.Length; i++)
             {
-                if (source == Generics.Source.Discord) { original = original.Replace("{User" + i + "}", "<@" + Targets[i].Id + ">"); }
-                else { original = original.Replace("{User" + i + "}", "@" + Targets[i].Name); }
+                if (source == Generics.Source.Discord) { original = original.Replace("{User" + i + "}", "<@" + Targets[i].Discord_Id + ">"); }
+                else { original = original.Replace("{User" + i + "}", "@" + Targets[i].Twitch_Name); }
             }
 
             return original;
