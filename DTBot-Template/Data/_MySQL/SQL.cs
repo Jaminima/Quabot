@@ -6,11 +6,10 @@ namespace DTBot_Template.Data._MySQL
 {
     public class SQL
     {
-        public static SQL pubInstance;
-
         #region Fields
 
         private readonly MySqlConnection connection;
+        public static SQL pubInstance;
 
         #endregion Fields
 

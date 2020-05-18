@@ -7,27 +7,19 @@ namespace DTBot_Template.Generics
 {
     public class Command : Message
     {
-        #region Methods
+        #region Fields
 
         private string Nums = "0123456789";
 
-        private bool IsValidMention(string Mention)
-        {
-            Mention = Mention.Replace("!", "");
-            Mention = Mention.Replace("<@", "@");
+        #endregion Fields
 
-            if (source == Source.Discord && Mention.Count(x => !Nums.Contains(x)) == 2 && Mention.EndsWith(">")) return true;
-
-            if (source == Source.Twitch && Mention.StartsWith("@")) return true;
-
-            return false;
-        }
+        #region Methods
 
         private User[] GetMentions()
         {
             string[] _mentions = commandArgs.Where(x => IsValidMention(x)).ToArray();
             User[] mentions = new User[_mentions.Length];
-            for (int i = 0; i < mentions.Length; i++) { mentions[i] = new User(_mentions[i], source,"THIS FORCES MENTIONS"); }
+            for (int i = 0; i < mentions.Length; i++) { mentions[i] = new User(_mentions[i], source, "THIS FORCES MENTIONS"); }
             return mentions;
         }
 
@@ -42,18 +34,24 @@ namespace DTBot_Template.Generics
             return uints.ToArray();
         }
 
-        #endregion Methods
+        private bool IsValidMention(string Mention)
+        {
+            Mention = Mention.Replace("!", "");
+            Mention = Mention.Replace("<@", "@");
 
-        #region Fields
+            if (source == Source.Discord && Mention.Count(x => !Nums.Contains(x)) == 2 && Mention.EndsWith(">")) return true;
+
+            if (source == Source.Twitch && Mention.StartsWith("@")) return true;
+
+            return false;
+        }
+
+        #endregion Methods
 
         public readonly string[] commandArgs;
         public readonly string commandStr, commandArgString;
         public readonly User[] mentions;
         public readonly uint[] values;
-
-        #endregion Fields
-
-        #region Constructors
 
         public Command()
         {
@@ -83,7 +81,5 @@ namespace DTBot_Template.Generics
             this.mentions = GetMentions();
             this.values = GetValues();
         }
-
-        #endregion Constructors
     }
 }

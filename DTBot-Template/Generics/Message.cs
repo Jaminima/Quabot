@@ -7,11 +7,11 @@ namespace DTBot_Template.Generics
     {
         #region Fields
 
-        public readonly SocketMessage discord_Source;
-        public readonly ChatMessage twitch_Source;
         public readonly string body;
         public readonly Channel channel;
+        public readonly SocketMessage discord_Source;
         public readonly User sender;
+        public readonly ChatMessage twitch_Source;
 
         #endregion Fields
 

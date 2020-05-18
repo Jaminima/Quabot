@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using DTBot_Template.Data;
+using System.Threading.Tasks;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
-using DTBot_Template.Data;
 
 namespace DTBot_Template
 {

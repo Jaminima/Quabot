@@ -23,7 +23,7 @@ namespace DTBot_Template
                 if (args.Content[0] == Command)
                 {
                     Generics.Command command = new Generics.Command(args);
-                    await CommandHandler(command, this, CacheHandler.FindCurrency(((SocketGuildChannel)command.discord_Source.Channel).Guild.Id.ToString(),command.Source));
+                    await CommandHandler(command, this, CacheHandler.FindCurrency(((SocketGuildChannel)command.discord_Source.Channel).Guild.Id.ToString(), command.Source));
                 }
                 else
                 {

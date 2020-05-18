@@ -8,8 +8,8 @@ namespace DTBot_Template.Generics
     {
         #region Fields
 
-        public string ChannelName;
         private ISocketMessageChannel discord_Source;
+        public string ChannelName;
 
         #endregion Fields
 

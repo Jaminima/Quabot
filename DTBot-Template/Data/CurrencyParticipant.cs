@@ -1,28 +1,29 @@
 ﻿using DTBot_Template.Data._MySQL;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DTBot_Template.Data
 {
     public class CurrencyParticipant : SQLObj
     {
+        #region Fields
+
         public uint currencyid;
-        public uint streamerid;
         public string discord_guild, twitch_name;
+        public uint streamerid;
+
+        #endregion Fields
+
+        #region Constructors
 
         public CurrencyParticipant()
         {
             Table = "currency_participants";
         }
 
-        public override void SetValues(object[] Data, bool OverrideProtected = false)
-        {
-            currencyid = uint.Parse(Data[0].ToString());
-            streamerid = uint.Parse(Data[1].ToString());
-            discord_guild = Data[2].ToString();
-            twitch_name = Data[3].ToString();
-        }
+        #endregion Constructors
+
+        #region Methods
 
         public static CurrencyParticipant FindDiscord(string GuildID)
         {
@@ -55,5 +56,15 @@ namespace DTBot_Template.Data
 
             return u;
         }
+
+        public override void SetValues(object[] Data, bool OverrideProtected = false)
+        {
+            currencyid = uint.Parse(Data[0].ToString());
+            streamerid = uint.Parse(Data[1].ToString());
+            discord_guild = Data[2].ToString();
+            twitch_name = Data[3].ToString();
+        }
+
+        #endregion Methods
     }
 }

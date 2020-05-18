@@ -1,30 +1,27 @@
 ﻿using DTBot_Template.Data._MySQL;
-using DTBot_Template.Generics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DTBot_Template.Data
 {
     public class CurrencyConfig : _MySQL.SQLObj
     {
+        #region Fields
+
         public string name;
+
+        #endregion Fields
+
+        #region Constructors
 
         public CurrencyConfig()
         {
             Table = "currency_config";
         }
 
-        public override void SetValues(object[] Data, bool OverrideProtected = false)
-        {
-            Id = uint.Parse(Data[0].ToString());
-            name = Data[2].ToString();
-        }
+        #endregion Constructors
 
-        public override object[] GetValues(bool IncludeProtected = true)
-        {
-            return new object[] { Id, null, name };
-        }
+        #region Methods
 
         public static CurrencyConfig Find(uint curid)
         {
@@ -41,6 +38,19 @@ namespace DTBot_Template.Data
 
             return u;
         }
+
+        public override object[] GetValues(bool IncludeProtected = true)
+        {
+            return new object[] { Id, null, name };
+        }
+
+        public override void SetValues(object[] Data, bool OverrideProtected = false)
+        {
+            Id = uint.Parse(Data[0].ToString());
+            name = Data[2].ToString();
+        }
+
+        #endregion Methods
 
         //public override void Update()
         //{

@@ -2,14 +2,13 @@
 using DTBot_Template.Data;
 using DTBot_Template.Data._MySQL;
 using DTBot_Template.Generics;
-using DTBot_Template.Intergrations;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestApp
 {
-    class Program
+    internal class Program
     {
         #region Fields
 
@@ -28,7 +27,7 @@ namespace TestApp
             {
                 SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
 
-                string[] Channels = CurrencyParticipant.FromTable<CurrencyParticipant>("currency_participants").Select(x=>x.twitch_name).ToArray();
+                string[] Channels = CurrencyParticipant.FromTable<CurrencyParticipant>("currency_participants").Select(x => x.twitch_name).ToArray();
 
                 tBot = new Twitch(botConfig.twitch_Username, botConfig.twitch_token, Channels);
                 tBot.MessageHandler += HandleMessage;
@@ -37,7 +36,6 @@ namespace TestApp
                 dBot = new DTBot_Template.Discord(botConfig.discord_Token);
                 dBot.MessageHandler += HandleMessage;
                 dBot.CommandHandler += HandleCommand;
-
 
                 Console.WriteLine("Bots Started");
             }
@@ -52,8 +50,8 @@ namespace TestApp
 
         public static async Task HandleCommand(Command command, BaseBot Bot, CurrencyConfig currency)
         {
-            _userInfo[] tBanks = CacheHandler.FindUsers(command.mentions,currency.Id);
-            _userInfo bank = CacheHandler.FindUser(command.sender,currency.Id);
+            _userInfo[] tBanks = CacheHandler.FindUsers(command.mentions, currency.Id);
+            _userInfo bank = CacheHandler.FindUser(command.sender, currency.Id);
 
             switch (command.commandStr)
             {
@@ -65,10 +63,10 @@ namespace TestApp
                     await Bot.SendDM(command.sender, command.commandArgString);
                     break;
 
-                case "WTF":
-                    //Streamlabs.CreateDonation("Jamm", 1, botConfig.Streamlabs);
-                    await Bot.SendMessage(command.channel, Streamlabs.GetDonations(botConfig.Streamlabs).ToString());
-                    break;
+                //case "WTF":
+                //    //Streamlabs.CreateDonation("Jamm", 1, botConfig.Streamlabs);
+                //    await Bot.SendMessage(command.channel, Streamlabs.GetDonations(botConfig.Streamlabs).ToString());
+                //    break;
 
                 case "bal":
 

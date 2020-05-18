@@ -9,7 +9,6 @@ namespace DTBot_Template.Data
         #region Fields
 
         private const string conf_Path = "./Data/Config.json";
-        public OAuth Streamlabs;
         public string twitch_Username, twitch_token, twitch_Channel, discord_Token, sql_Server, sql_Username, sql_Password;
 
         #endregion Fields
@@ -33,15 +32,5 @@ namespace DTBot_Template.Data
         }
 
         #endregion Methods
-    }
-
-    public class OAuth
-    {
-        #region Fields
-
-        public string Token, client_Id, client_Secret, token_type;
-        public bool TokenIsRefresh = false;
-
-        #endregion Fields
     }
 }
