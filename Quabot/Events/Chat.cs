@@ -1,52 +1,12 @@
-﻿using DTBot_Template;
-using DTBot_Template.Data;
-using DTBot_Template.Data._MySQL;
+﻿using DTBot_Template.Data;
 using DTBot_Template.Generics;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestApp
+namespace DTBot_Template.Events
 {
-    internal class Program
+    public static class ChatEvents
     {
-        #region Fields
-
-        private static BotConfig botConfig;
-
-        #endregion Fields
-
         #region Methods
-
-        private static void Main(string[] args)
-        {
-            botConfig = BotConfig.Load();
-
-            if (botConfig == null) Console.WriteLine("Please fill the config file with valid details, and run again");
-            else
-            {
-                SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
-
-                string[] Channels = CurrencyParticipant.FromTable<CurrencyParticipant>("currency_participants").Select(x => x.twitch_name).ToArray();
-
-                tBot = new Twitch(botConfig.twitch_Username, botConfig.twitch_token, Channels);
-                tBot.MessageHandler += HandleMessage;
-                tBot.CommandHandler += HandleCommand;
-
-                dBot = new DTBot_Template.Discord(botConfig.discord_Token);
-                dBot.MessageHandler += HandleMessage;
-                dBot.CommandHandler += HandleCommand;
-
-                Console.WriteLine("Bots Started");
-            }
-
-            while (true) { Console.ReadLine(); }
-        }
-
-        #endregion Methods
-
-        public static DTBot_Template.Discord dBot;
-        public static DTBot_Template.Twitch tBot;
 
         public static async Task HandleCommand(Command command, BaseBot Bot, CurrencyConfig currency)
         {
@@ -110,5 +70,7 @@ namespace TestApp
                 }
             }
         }
+
+        #endregion Methods
     }
 }

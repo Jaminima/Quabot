@@ -45,7 +45,7 @@ namespace DTBot_Template
 
         public Discord(string token, char Command = '!') : base(Command)
         {
-            _client = new DiscordSocketClient();
+             _client = new DiscordSocketClient();
 
             _client.MessageReceived += MessageReceived;
 
