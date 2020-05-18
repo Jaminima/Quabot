@@ -1,4 +1,5 @@
 ﻿using DTBot_Template.Data._MySQL;
+using DTBot_Template.Generics;
 using System;
 using System.Collections.Generic;
 using System.Text;

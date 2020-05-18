@@ -6,18 +6,19 @@ using System.IO;
 
 namespace DTBot_Template.Data
 {
-    public class CacheHandler
+    public static class CacheHandler
     {
         #region Fields
 
-        private List<_userInfo> _userCache = new List<_userInfo>();
-        private List<CurrencyConfig> _currencyCache = new List<CurrencyConfig>();
+        private static List<_userInfo> _userCache = new List<_userInfo>();
+        private static List<CurrencyConfig> _currencyCache = new List<CurrencyConfig>();
+        private static List<CurrencyParticipant> _currencyParticipantCache = new List<CurrencyParticipant>();
 
         #endregion Fields
 
         #region Methods
 
-        public CurrencyConfig FindCurrency(uint curid)
+        public static CurrencyConfig FindCurrency(uint curid)
         {
             CurrencyConfig _currency = _currencyCache.Find(x => x.Id == curid);
 
@@ -30,13 +31,28 @@ namespace DTBot_Template.Data
             return _currency;
         }
 
-        public virtual void AddUser(_userInfo user)
+        public static CurrencyConfig FindCurrency(string Source, Source source)
+        {
+            CurrencyParticipant _participant = _currencyParticipantCache.Find(x => (x.discord_guild == Source && source==Generics.Source.Discord) || (x.twitch_name == Source && source == Generics.Source.Twitch));
+
+            if (_participant == null)
+            {
+                if (source == Generics.Source.Discord) _participant = CurrencyParticipant.FindDiscord(Source);
+                else _participant = CurrencyParticipant.FindTwitch(Source);
+
+                if (_participant != null) _currencyParticipantCache.Add(_participant);
+            }
+
+            return FindCurrency(_participant.currencyid);
+        }
+
+        public static void AddUser(_userInfo user)
         {
             user.Insert();
             _userCache.Add(user);
         }
 
-        public _userInfo FindUser(User user, uint curid)
+        public static _userInfo FindUser(User user, uint curid)
         {
             _userInfo _uInfo = _userCache.Find(x => x.user.Equals(user));
 
@@ -54,7 +70,7 @@ namespace DTBot_Template.Data
             return _uInfo;
         }
 
-        public _userInfo[] FindUsers(User[] users, uint curid)
+        public static _userInfo[] FindUsers(User[] users, uint curid)
         {
             _userInfo[] _uInfos = new _userInfo[users.Length];
 

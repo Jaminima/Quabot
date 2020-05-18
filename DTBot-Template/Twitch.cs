@@ -2,6 +2,7 @@
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
+using DTBot_Template.Data;
 
 namespace DTBot_Template
 {
@@ -12,7 +13,7 @@ namespace DTBot_Template
         private async void CommandReceived(object e, OnChatCommandReceivedArgs args)
         {
             Generics.Command command = new Generics.Command(args.Command);
-            await CommandHandler(command, this);
+            await CommandHandler(command, this, CacheHandler.FindCurrency(command.channel.ChannelName, command.Source));
         }
 
         private async void MessageReceived(object e, OnMessageReceivedArgs args)
@@ -20,7 +21,7 @@ namespace DTBot_Template
             if (args.ChatMessage.Message[0] != Command)
             {
                 Generics.Message message = new Generics.Message(args.ChatMessage);
-                await MessageHandler(message, this);
+                await MessageHandler(message, this, CacheHandler.FindCurrency(message.channel.ChannelName, message.Source));
             }
         }
 

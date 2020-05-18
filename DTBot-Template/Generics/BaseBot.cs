@@ -8,8 +8,8 @@ namespace DTBot_Template.Generics
         #region Fields
 
         protected readonly char Command;
-        public Func<Command, BaseBot, Task> CommandHandler;
-        public Func<Message, BaseBot, Task> MessageHandler;
+        public Func<Command, BaseBot, Data.CurrencyConfig, Task> CommandHandler;
+        public Func<Message, BaseBot, Data.CurrencyConfig, Task> MessageHandler;
 
         #endregion Fields
 

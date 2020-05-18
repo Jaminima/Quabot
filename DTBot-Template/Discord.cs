@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using DTBot_Template.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,12 +23,12 @@ namespace DTBot_Template
                 if (args.Content[0] == Command)
                 {
                     Generics.Command command = new Generics.Command(args);
-                    await CommandHandler(command, this);
+                    await CommandHandler(command, this, CacheHandler.FindCurrency(((SocketGuildChannel)command.discord_Source.Channel).Guild.Id.ToString(),command.Source));
                 }
                 else
                 {
                     Generics.Message message = new Generics.Message(args);
-                    await MessageHandler(message, this);
+                    await MessageHandler(message, this, CacheHandler.FindCurrency(((SocketGuildChannel)message.discord_Source.Channel).Guild.Id.ToString(), message.Source));
                 }
             }
         }

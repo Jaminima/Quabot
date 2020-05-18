@@ -4,6 +4,7 @@ using DTBot_Template.Data._MySQL;
 using DTBot_Template.Generics;
 using DTBot_Template.Intergrations;
 using System;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace TestApp
@@ -13,8 +14,6 @@ namespace TestApp
         #region Fields
 
         private static BotConfig botConfig;
-
-        private static UserInfoHandler<_userInfo> infoHandler = new UserInfoHandler<_userInfo>();
 
         #endregion Fields
 
@@ -37,10 +36,6 @@ namespace TestApp
 
                 SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
 
-                var t = _userInfo.FromTable<_userInfo>("currency_account");
-
-                infoHandler.Load();
-
                 Console.WriteLine("Bots Started");
             }
 
@@ -52,10 +47,10 @@ namespace TestApp
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
 
-        public static async Task HandleCommand(Command command, BaseBot Bot)
+        public static async Task HandleCommand(Command command, BaseBot Bot, CurrencyConfig currency)
         {
-            _userInfo[] tBanks = infoHandler.FindUsers(command.mentions);
-            _userInfo bank = infoHandler.FindUser(command.sender);
+            _userInfo[] tBanks = CacheHandler.FindUsers(command.mentions,currency.Id);
+            _userInfo bank = CacheHandler.FindUser(command.sender,currency.Id);
 
             switch (command.commandStr)
             {
@@ -92,11 +87,9 @@ namespace TestApp
                     else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}");
                     break;
             }
-
-            infoHandler.Save();
         }
 
-        public static async Task HandleMessage(Message message, BaseBot Bot)
+        public static async Task HandleMessage(Message message, BaseBot Bot, CurrencyConfig currency)
         {
             string[] iams = { "i am", "i'm", "im" };
             int index;
