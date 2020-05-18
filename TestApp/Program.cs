@@ -4,7 +4,7 @@ using DTBot_Template.Data._MySQL;
 using DTBot_Template.Generics;
 using DTBot_Template.Intergrations;
 using System;
-using System.Reflection.Metadata;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestApp
@@ -26,7 +26,11 @@ namespace TestApp
             if (botConfig == null) Console.WriteLine("Please fill the config file with valid details, and run again");
             else
             {
-                tBot = new Twitch(botConfig.twitch_Username, botConfig.twitch_token, botConfig.twitch_Channel);
+                SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
+
+                string[] Channels = CurrencyParticipant.FromTable<CurrencyParticipant>("currency_participants").Select(x=>x.twitch_name).ToArray();
+
+                tBot = new Twitch(botConfig.twitch_Username, botConfig.twitch_token, Channels);
                 tBot.MessageHandler += HandleMessage;
                 tBot.CommandHandler += HandleCommand;
 
@@ -34,7 +38,6 @@ namespace TestApp
                 dBot.MessageHandler += HandleMessage;
                 dBot.CommandHandler += HandleCommand;
 
-                SQL.pubInstance = new SQL(botConfig.sql_Username, "sys", botConfig.sql_Password, botConfig.sql_Server);
 
                 Console.WriteLine("Bots Started");
             }

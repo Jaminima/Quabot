@@ -35,19 +35,24 @@ namespace DTBot_Template
 
         #region Constructors
 
-        public Twitch(string username, string token, string channel, char Command = '!') : base(Command)
+        public Twitch(string username, string token, string[] channels, char Command = '!') : base(Command)
         {
             ConnectionCredentials credentials = new ConnectionCredentials(username, token);
 
             _client = new TwitchClient();
 
-            _client.Initialize(credentials, channel);
+            _client.Initialize(credentials);
+
             _client.AddChatCommandIdentifier(Command);
 
             _client.OnMessageReceived += MessageReceived;
             _client.OnChatCommandReceived += CommandReceived;
 
             _client.Connect();
+
+            System.Threading.Thread.Sleep(1000);
+
+            foreach (string C in channels) _client.JoinChannel(C);
         }
 
         #endregion Constructors
