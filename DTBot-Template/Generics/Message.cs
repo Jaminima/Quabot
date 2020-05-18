@@ -7,8 +7,8 @@ namespace DTBot_Template.Generics
     {
         #region Fields
 
-        private SocketMessage discord_Source;
-        private ChatMessage twitch_Source;
+        public readonly SocketMessage discord_Source;
+        public readonly ChatMessage twitch_Source;
         public readonly string body;
         public readonly Channel channel;
         public readonly User sender;
@@ -23,6 +23,7 @@ namespace DTBot_Template.Generics
 
         public Message(ChatMessage args)
         {
+            twitch_Source = args;
             source = Source.Twitch;
             body = args.Message;
             channel = new Channel(args.Channel);
@@ -31,6 +32,7 @@ namespace DTBot_Template.Generics
 
         public Message(SocketMessage args)
         {
+            discord_Source = args;
             source = Source.Discord;
             body = args.Content;
             channel = new Channel(args.Channel);
