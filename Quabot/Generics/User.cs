@@ -17,7 +17,7 @@ namespace DTBot_Template.Generics
 
         #region Constructors
 
-        public User(string Name, string Id, Source source) : base(source)
+        public User(string Name, string Id)
         {
             this.Twitch_Name = Name;
             this.Discord_Id = Id;

@@ -27,6 +27,10 @@ CREATE TABLE `currency_config` (
   `streamer_id` int(11) NOT NULL,
   `currency_name` varchar(16) NOT NULL DEFAULT 'tokens',
   `simple_responses` longtext,
+  `custom_emotes` longtext,
+  `message_reward_delay` int(10) unsigned DEFAULT '120',
+  `message_reward` int(10) unsigned DEFAULT '50',
+  `default_balance` int(10) unsigned DEFAULT '1000',
   PRIMARY KEY (`currency_id`),
   UNIQUE KEY `cur_id_UNIQUE` (`currency_id`),
   KEY `currency owner_idx` (`streamer_id`),
@@ -40,7 +44,7 @@ CREATE TABLE `currency_config` (
 
 LOCK TABLES `currency_config` WRITE;
 /*!40000 ALTER TABLE `currency_config` DISABLE KEYS */;
-INSERT INTO `currency_config` VALUES (1,1,'JamCoin','github¬https://github.com/Jaminima/Quabot;discord¬https://discord.gg/TRDJhv'),(2,1,'OwlCoin','github¬https://github.com/Jaminima/Quabot');
+INSERT INTO `currency_config` VALUES (1,1,'JamCoin','github¬https://github.com/Jaminima/Quabot;discord¬https://discord.gg/TRDJhv','bread¬<:Meatloath:686982222825521156>¬VapeNation;',120,50,1000),(2,1,'OwlCoin','github¬https://github.com/Jaminima/Quabot','owl¬Oogla¬owlcoin;',120,50,1000);
 /*!40000 ALTER TABLE `currency_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19  8:32:20
+-- Dump completed on 2020-05-19 11:15:36

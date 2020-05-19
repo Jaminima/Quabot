@@ -75,7 +75,6 @@ namespace DTBot_Template.Data
             if (_uInfo == null)
             {
                 _uInfo = new _userInfo(user,currency);
-                _uInfo.currency = currency.Id;
                 return AddUser(_uInfo);
             }
 

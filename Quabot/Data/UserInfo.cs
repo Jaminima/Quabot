@@ -45,10 +45,9 @@ namespace DTBot_Template.Data
             List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
                 new Tuple<string, object>("@0", user.Discord_Id),
                 new Tuple<string, object>("@1", user.Twitch_Name),
-                new Tuple<string, object>("@2", user.Source),
-                new Tuple<string, object>("@3", curid)
+                new Tuple<string, object>("@2", curid)
             };
-            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_account WHERE (discord_id = @0 OR twitch_name = @1) AND dt_source = @2 AND currency_id = @3", Params);
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_account WHERE (discord_id = @0 OR twitch_name = @1) AND currency_id = @2", Params);
 
             if (Data.Count == 0) return null;
 
@@ -61,8 +60,8 @@ namespace DTBot_Template.Data
 
         public override object[] GetValues(bool IncludeProtected = true)
         {
-            if (IncludeProtected) return new object[] { Id, currency, balance, user.Discord_Id, user.Twitch_Name, user.Source };
-            else return new object[] { null, currency, balance, user.Discord_Id, user.Twitch_Name, user.Source };
+            if (IncludeProtected) return new object[] { Id, currency, balance, user.Discord_Id, user.Twitch_Name };
+            else return new object[] { null, currency, balance, user.Discord_Id, user.Twitch_Name };
         }
 
         public override void SetValues(object[] Data, bool OverrideProtected = false)
@@ -71,7 +70,7 @@ namespace DTBot_Template.Data
             currency = uint.Parse(Data[1].ToString());
             balance = uint.Parse(Data[2].ToString());
 
-            user = new Generics.User(Data[4].ToString(), Data[3].ToString(), (Generics.Source)Convert.ToInt32(Data[5]));
+            user = new Generics.User(Data[4].ToString(), Data[3].ToString());
         }
 
         public override void Update()

@@ -28,12 +28,11 @@ CREATE TABLE `currency_account` (
   `currency_balance` int(11) unsigned DEFAULT '0',
   `discord_id` varchar(32) DEFAULT NULL,
   `twitch_name` varchar(64) DEFAULT NULL,
-  `dt_source` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`account_id`,`currency_id`),
   UNIQUE KEY `acc_id_UNIQUE` (`account_id`),
   KEY `currency_idx` (`currency_id`),
   CONSTRAINT `acc_cur` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +41,7 @@ CREATE TABLE `currency_account` (
 
 LOCK TABLES `currency_account` WRITE;
 /*!40000 ALTER TABLE `currency_account` DISABLE KEYS */;
-INSERT INTO `currency_account` VALUES (20,1,898,'300712019466911744',NULL,1),(21,1,1000,NULL,'jccjaminima',0),(22,1,1101,'330272728626233356',NULL,1),(26,2,0,'300712019466911744',NULL,1),(27,1,1000,'344270500987404288',NULL,1),(28,2,2000,'330272728626233356',NULL,1),(29,1,1000,'658254702773010452',NULL,1),(30,2,1000,NULL,'jccjaminima',0),(31,2,1000,NULL,'ifreezeno',0);
+INSERT INTO `currency_account` VALUES (34,1,1050,'300712019466911744','jccjaminima');
 /*!40000 ALTER TABLE `currency_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19  8:32:17
+-- Dump completed on 2020-05-19 11:15:33
