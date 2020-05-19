@@ -1,7 +1,6 @@
 ﻿using DTBot_Template.Data._MySQL;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace DTBot_Template.Data
@@ -10,18 +9,15 @@ namespace DTBot_Template.Data
     {
         #region Fields
 
+        public Dictionary<string, Emote> CustomEmotes;
+        public uint DefaultBalance;
+        public uint FishCost;
+        public FishReward[] FishRewards;
+        public uint FishWait;
+        public uint MessageReward;
+        public uint MessageRewardDelay;
         public string name;
         public Dictionary<string, string> SimpleResponses;
-        public Dictionary<string, Emote> CustomEmotes;
-        public FishReward[] FishRewards;
-
-        public uint FishWait;
-        public uint FishCost;
-
-        public uint MessageRewardDelay;
-        public uint MessageReward;
-
-        public uint DefaultBalance;
 
         #endregion Fields
 
@@ -62,9 +58,9 @@ namespace DTBot_Template.Data
             Id = uint.Parse(Data[0].ToString());
             name = Data[2].ToString();
 
-            SimpleResponses = Data[3].ToString().TrimEnd(';').Split(';').ToDictionary(x=>x.Split('¬')[0], x=>x.Split('¬')[1]);
+            SimpleResponses = Data[3].ToString().TrimEnd(';').Split(';').ToDictionary(x => x.Split('¬')[0], x => x.Split('¬')[1]);
 
-            CustomEmotes = Data[4].ToString().TrimEnd(';').Split(';').ToDictionary(x => '{'+x.Split('¬')[0]+'}',x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
+            CustomEmotes = Data[4].ToString().TrimEnd(';').Split(';').ToDictionary(x => '{' + x.Split('¬')[0] + '}', x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
 
             FishRewards = Data[5].ToString().TrimEnd(';').Split(';').Select(x => new FishReward(x.Split('¬')[0], uint.Parse(x.Split('¬')[1]), uint.Parse(x.Split('¬')[2]))).ToArray();
 
@@ -91,19 +87,33 @@ namespace DTBot_Template.Data
 
     public class Emote
     {
+        #region Fields
+
         public string Twitch, Discord;
+
+        #endregion Fields
+
+        #region Constructors
 
         public Emote(string Twitch, string Discord)
         {
             this.Twitch = Twitch;
             this.Discord = Discord;
         }
+
+        #endregion Constructors
     }
 
     public class FishReward
     {
+        #region Fields
+
         public string Name;
         public uint Reward, Odds;
+
+        #endregion Fields
+
+        #region Constructors
 
         public FishReward(string Name, uint Odds, uint Reward)
         {
@@ -111,5 +121,7 @@ namespace DTBot_Template.Data
             this.Odds = Odds;
             this.Reward = Reward;
         }
+
+        #endregion Constructors
     }
 }

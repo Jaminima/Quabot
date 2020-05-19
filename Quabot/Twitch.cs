@@ -1,7 +1,5 @@
 ﻿using DTBot_Template.Data;
-using System.Linq;
 using System.Threading.Tasks;
-using TwitchLib.Api.V5;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -45,6 +43,7 @@ namespace DTBot_Template
 
             _client.Initialize(credentials);
 
+            _client.RemoveChatCommandIdentifier('!');
             _client.AddChatCommandIdentifier(Command);
 
             _client.OnMessageReceived += MessageReceived;
@@ -58,7 +57,7 @@ namespace DTBot_Template
             {
                 foreach (string C in channels)
                 {
-                    _client.JoinChannel(C,true);
+                    _client.JoinChannel(C, true);
                     System.Threading.Thread.Sleep(500);
                 }
             }

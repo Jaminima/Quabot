@@ -1,6 +1,5 @@
 ﻿using DTBot_Template.Data;
 using DTBot_Template.Generics;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DTBot_Template.Events
@@ -17,11 +16,11 @@ namespace DTBot_Template.Events
             switch (command.commandStr)
             {
                 case "echo":
-                    await Bot.SendMessage(command.channel, command.commandArgString,command.Source,currency);
+                    await Bot.SendMessage(command.channel, command.commandArgString, command.Source, currency);
                     break;
 
                 case "echodm":
-                    await Bot.SendDM(command.sender, command.commandArgString,command.Source,currency);
+                    await Bot.SendDM(command.sender, command.commandArgString, command.Source, currency);
                     break;
 
                 //case "wtf":

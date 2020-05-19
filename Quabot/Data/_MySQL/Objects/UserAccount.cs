@@ -2,13 +2,18 @@
 using DTBot_Template.Generics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DTBot_Template.Data
 {
     public class UserAccount : SQLObj
     {
+        #region Fields
+
         public Generics.User user;
+
+        #endregion Fields
+
+        #region Constructors
 
         public UserAccount()
         {
@@ -20,6 +25,10 @@ namespace DTBot_Template.Data
             Table = "currency_users";
             this.user = _user;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         public static UserAccount Find(User user)
         {
@@ -54,6 +63,12 @@ namespace DTBot_Template.Data
             return u;
         }
 
+        public override object[] GetValues(bool IncludeProtected = true)
+        {
+            if (IncludeProtected) return new object[] { Id, user.Discord_Id, user.Twitch_Name };
+            else return new object[] { null, user.Discord_Id, user.Twitch_Name };
+        }
+
         public override void SetValues(object[] Data, bool OverrideProtected = false)
         {
             Id = uint.Parse(Data[0].ToString());
@@ -61,10 +76,6 @@ namespace DTBot_Template.Data
             user = new User(Data[2].ToString(), Data[1].ToString());
         }
 
-        public override object[] GetValues(bool IncludeProtected = true)
-        {
-            if (IncludeProtected) return new object[] { Id, user.Discord_Id, user.Twitch_Name };
-            else return new object[] { null, user.Discord_Id, user.Twitch_Name };
-        }
+        #endregion Methods
     }
 }

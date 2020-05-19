@@ -32,7 +32,7 @@ namespace DTBot_Template.Generics
             if (source == Generics.Source.Discord) original = original.Replace("{User}", "<@" + Source?.Discord_Id + ">");
             else original = original.Replace("{User}", "@" + Source?.Twitch_Name);
 
-            original = original.Replace("{String}",Str);
+            original = original.Replace("{String}", Str);
             original = original.Replace("{Currency}", Currency.name);
             original = original.Replace("{Value}", Value.ToString());
 
@@ -68,9 +68,9 @@ namespace DTBot_Template.Generics
             await SendDM(user, Message);
         }
 
-        public async Task SendDM(Command _command, string Message, CurrencyConfig Currency, uint Value = 0,  string Str = "")
+        public async Task SendDM(Command _command, string Message, CurrencyConfig Currency, uint Value = 0, string Str = "")
         {
-            Message = replacePeramaters(Message, _command.Source, Currency, _command.sender, _command.mentions, _command.values, Value,Str);
+            Message = replacePeramaters(Message, _command.Source, Currency, _command.sender, _command.mentions, _command.values, Value, Str);
             await SendDM(_command.sender, Message);
         }
 
@@ -84,7 +84,7 @@ namespace DTBot_Template.Generics
         {
         }
 
-        public async Task SendMessage(Channel channel, string Message, Source source, CurrencyConfig Currency, User user = null, User[] Targets = null, uint[] Values = null, uint Value = 0,  string Str = "")
+        public async Task SendMessage(Channel channel, string Message, Source source, CurrencyConfig Currency, User user = null, User[] Targets = null, uint[] Values = null, uint Value = 0, string Str = "")
         {
             Message = replacePeramaters(Message, source, Currency, user, Targets, Values, Value, Str);
             await SendMessage(channel, Message);

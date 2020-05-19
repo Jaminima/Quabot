@@ -10,8 +10,8 @@ namespace DTBot_Template.Data
 
         private static Dictionary<CurrencyConfig, DateTime> _currencyCache = new Dictionary<CurrencyConfig, DateTime>();
         private static Dictionary<CurrencyParticipant, DateTime> _currencyParticipantCache = new Dictionary<CurrencyParticipant, DateTime>();
-        private static List<_userInfo> _userCache = new List<_userInfo>();
         private static List<UserAccount> _userAccCache = new List<UserAccount>();
+        private static List<_userInfo> _userCache = new List<_userInfo>();
 
         #endregion Fields
 
@@ -27,19 +27,19 @@ namespace DTBot_Template.Data
             return default(T);
         }
 
-        public static _userInfo AddUser(_userInfo user)
-        {
-            user.Insert();
-            user = _userInfo.Find(user.user.user, user.currency);
-            _userCache.Add(user);
-            return user;
-        }
-
         public static UserAccount AddAccount(UserAccount user)
         {
             user.Insert();
             user = UserAccount.Find(user.user);
             _userAccCache.Add(user);
+            return user;
+        }
+
+        public static _userInfo AddUser(_userInfo user)
+        {
+            user.Insert();
+            user = _userInfo.Find(user.user.user, user.currency);
+            _userCache.Add(user);
             return user;
         }
 
@@ -115,7 +115,7 @@ namespace DTBot_Template.Data
 
             if (_uInfo == null)
             {
-                _uInfo = new _userInfo(user,currency);
+                _uInfo = new _userInfo(user, currency);
                 return AddUser(_uInfo);
             }
 
