@@ -10,8 +10,8 @@ namespace DTBot_Template.Events
 
         public static async Task HandleCommand(Command command, BaseBot Bot, CurrencyConfig currency)
         {
-            _userInfo[] tBanks = CacheHandler.FindUsers(command.mentions, currency.Id);
-            _userInfo bank = CacheHandler.FindUser(command.sender, currency.Id);
+            _userInfo[] tBanks = CacheHandler.FindUsers(command.mentions, currency);
+            _userInfo bank = CacheHandler.FindUser(command.sender, currency);
 
             switch (command.commandStr)
             {
@@ -58,6 +58,9 @@ namespace DTBot_Template.Events
 
         public static async Task HandleMessage(Message message, BaseBot Bot, CurrencyConfig currency)
         {
+            _userInfo bank = CacheHandler.FindUser(message.sender, currency);
+            Rewards.MessageRewardUser(bank);
+
             string[] iams = { "i am", "i'm", "im" };
             int index;
 

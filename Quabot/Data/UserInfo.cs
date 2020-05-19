@@ -28,6 +28,14 @@ namespace DTBot_Template.Data
             this.user = _user;
         }
 
+        public _userInfo(Generics.User _user, CurrencyConfig currency)
+        {
+            this.currency = currency.Id;
+            this.balance = currency.DefaultBalance;
+            Table = "currency_account";
+            this.user = _user;
+        }
+
         #endregion Constructors
 
         #region Methods

@@ -14,6 +14,11 @@ namespace DTBot_Template.Data
         public Dictionary<string, string> SimpleResponses;
         public Dictionary<string, Emote> CustomEmotes;
 
+        public uint MessageRewardDelay;
+        public uint MessageReward;
+
+        public uint DefaultBalance;
+
         #endregion Fields
 
         #region Constructors
@@ -56,6 +61,11 @@ namespace DTBot_Template.Data
             SimpleResponses = Data[3].ToString().TrimEnd(';').Split(';').ToDictionary(x=>x.Split('¬')[0], x=>x.Split('¬')[1]);
 
             CustomEmotes = Data[4].ToString().TrimEnd(';').Split(';').ToDictionary(x => '{'+x.Split('¬')[0]+'}',x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
+
+            MessageRewardDelay = uint.Parse(Data[5].ToString());
+            MessageReward = uint.Parse(Data[6].ToString());
+
+            DefaultBalance = uint.Parse(Data[7].ToString());
         }
 
         #endregion Methods

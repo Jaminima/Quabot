@@ -34,13 +34,13 @@ namespace DTBot_Template.Data
             return user;
         }
 
-        public static CurrencyConfig FindCurrency(uint curid)
+        public static CurrencyConfig FindCurrency(uint currencyId)
         {
-            CurrencyConfig _currency = Find(_currencyCache, x => x.Id == curid);
+            CurrencyConfig _currency = Find(_currencyCache, x => x.Id == currencyId);
 
             if (_currency == null)
             {
-                _currency = CurrencyConfig.Find(curid);
+                _currency = CurrencyConfig.Find(currencyId);
                 if (_currency != null) _currencyCache.Add(_currency, DateTime.Now);
             }
 
@@ -62,33 +62,33 @@ namespace DTBot_Template.Data
             return FindCurrency(_participant.currencyid);
         }
 
-        public static _userInfo FindUser(User user, uint curid)
+        public static _userInfo FindUser(User user, CurrencyConfig currency)
         {
-            _userInfo _uInfo = _userCache.Find(x => x.user.Equals(user) && x.currency == curid);
+            _userInfo _uInfo = _userCache.Find(x => x.user.Equals(user) && x.currency == currency.Id);
 
             if (_uInfo == null)
             {
-                _uInfo = _userInfo.Find(user, curid);
+                _uInfo = _userInfo.Find(user, currency.Id);
                 if (_uInfo != null) _userCache.Add(_uInfo);
             }
 
             if (_uInfo == null)
             {
-                _uInfo = new _userInfo(user);
-                _uInfo.currency = curid;
+                _uInfo = new _userInfo(user,currency);
+                _uInfo.currency = currency.Id;
                 return AddUser(_uInfo);
             }
 
             return _uInfo;
         }
 
-        public static _userInfo[] FindUsers(User[] users, uint curid)
+        public static _userInfo[] FindUsers(User[] users, CurrencyConfig currency)
         {
             _userInfo[] _uInfos = new _userInfo[users.Length];
 
             for (int i = 0; i < users.Length; i++)
             {
-                _uInfos[i] = FindUser(users[i], curid);
+                _uInfos[i] = FindUser(users[i], currency);
             }
 
             return _uInfos;
