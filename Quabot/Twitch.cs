@@ -50,9 +50,7 @@ namespace DTBot_Template
 
             _client.Connect();
 
-            //while (_client.IsConnected) { }
-
-            System.Threading.Thread.Sleep(1000);
+            while (!_client.IsConnected) { System.Threading.Thread.Sleep(200); }
 
             foreach (string C in channels) _client.JoinChannel(C);
         }

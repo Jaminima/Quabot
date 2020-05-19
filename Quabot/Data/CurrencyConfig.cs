@@ -1,6 +1,7 @@
 ﻿using DTBot_Template.Data._MySQL;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace DTBot_Template.Data
@@ -11,6 +12,7 @@ namespace DTBot_Template.Data
 
         public string name;
         public Dictionary<string, string> SimpleResponses;
+        public Dictionary<string, Emote> CustomEmotes;
 
         #endregion Fields
 
@@ -52,6 +54,8 @@ namespace DTBot_Template.Data
             name = Data[2].ToString();
 
             SimpleResponses = Data[3].ToString().TrimEnd(';').Split(';').ToDictionary(x=>x.Split('¬')[0], x=>x.Split('¬')[1]);
+
+            CustomEmotes = Data[4].ToString().TrimEnd(';').Split(';').ToDictionary(x => '{'+x.Split('¬')[0]+'}',x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
         }
 
         #endregion Methods
@@ -64,5 +68,16 @@ namespace DTBot_Template.Data
         //    };
         //    SQL.pubInstance.Execute("UPDATE currency_config SET currency_name = @0 WHERE currency_id=@1", Params);
         //}
+    }
+
+    public class Emote
+    {
+        public string Twitch, Discord;
+
+        public Emote(string Twitch, string Discord)
+        {
+            this.Twitch = Twitch;
+            this.Discord = Discord;
+        }
     }
 }
