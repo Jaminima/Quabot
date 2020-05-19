@@ -49,6 +49,10 @@ namespace DTBot_Template.Events
                     }
                     else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}");
                     break;
+
+                default:
+                    if (currency.SimpleResponses.ContainsKey(command.commandStr)) await Bot.SendMessage(command, currency.SimpleResponses[command.commandStr]);
+                    break;
             }
         }
 

@@ -26,11 +26,12 @@ CREATE TABLE `currency_config` (
   `currency_id` int(11) NOT NULL AUTO_INCREMENT,
   `streamer_id` int(11) NOT NULL,
   `currency_name` varchar(16) NOT NULL DEFAULT 'tokens',
+  `simple_responses` longtext,
   PRIMARY KEY (`currency_id`),
   UNIQUE KEY `cur_id_UNIQUE` (`currency_id`),
   KEY `currency owner_idx` (`streamer_id`),
   CONSTRAINT `currency owner` FOREIGN KEY (`streamer_id`) REFERENCES `streamer_account` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +40,7 @@ CREATE TABLE `currency_config` (
 
 LOCK TABLES `currency_config` WRITE;
 /*!40000 ALTER TABLE `currency_config` DISABLE KEYS */;
-INSERT INTO `currency_config` VALUES (1,1,'JamCoin');
+INSERT INTO `currency_config` VALUES (1,1,'JamCoin','github¬https://github.com/Jaminima/Quabot;discord¬https://discord.gg/TRDJhv'),(2,1,'OwlCoin','github¬https://github.com/Jaminima/Quabot');
 /*!40000 ALTER TABLE `currency_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-18 11:55:14
+-- Dump completed on 2020-05-19  8:32:20

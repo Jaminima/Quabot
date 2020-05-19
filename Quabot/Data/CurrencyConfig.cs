@@ -1,6 +1,7 @@
 ﻿using DTBot_Template.Data._MySQL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DTBot_Template.Data
 {
@@ -9,6 +10,7 @@ namespace DTBot_Template.Data
         #region Fields
 
         public string name;
+        public Dictionary<string, string> SimpleResponses;
 
         #endregion Fields
 
@@ -48,6 +50,8 @@ namespace DTBot_Template.Data
         {
             Id = uint.Parse(Data[0].ToString());
             name = Data[2].ToString();
+
+            SimpleResponses = Data[3].ToString().TrimEnd(';').Split(';').ToDictionary(x=>x.Split('¬')[0], x=>x.Split('¬')[1]);
         }
 
         #endregion Methods

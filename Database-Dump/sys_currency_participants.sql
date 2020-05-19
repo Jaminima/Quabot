@@ -28,6 +28,8 @@ CREATE TABLE `currency_participants` (
   `discord_guild` varchar(32) DEFAULT NULL,
   `twitch_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`currency_id`,`streamer_id`),
+  UNIQUE KEY `discord_guild_UNIQUE` (`discord_guild`),
+  UNIQUE KEY `twitch_name_UNIQUE` (`twitch_name`),
   KEY `streamer_idx` (`streamer_id`),
   CONSTRAINT `currency` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `streamer` FOREIGN KEY (`streamer_id`) REFERENCES `streamer_account` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -40,7 +42,7 @@ CREATE TABLE `currency_participants` (
 
 LOCK TABLES `currency_participants` WRITE;
 /*!40000 ALTER TABLE `currency_participants` DISABLE KEYS */;
-INSERT INTO `currency_participants` VALUES (1,1,'678011054172798991','jccjaminima');
+INSERT INTO `currency_participants` VALUES (1,1,'678011054172798991','jccjaminima'),(2,1,'443459293245865985','harbonator');
 /*!40000 ALTER TABLE `currency_participants` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-18 11:55:12
+-- Dump completed on 2020-05-19  8:32:18

@@ -60,7 +60,7 @@ namespace DTBot_Template.Generics
         public Command(ChatCommand args) : base(args.ChatMessage)
         {
             source = Source.Twitch;
-            commandStr = args.CommandText;
+            commandStr = args.CommandText.ToLower();
             commandArgs = args.ArgumentsAsList.ToArray();
             commandArgString = args.ArgumentsAsString;
 
@@ -74,7 +74,7 @@ namespace DTBot_Template.Generics
             int CommEnd = body.IndexOf(' ');
             if (CommEnd == -1) { CommEnd = body.Length; }
 
-            commandStr = body.Substring(0, CommEnd).Substring(1);
+            commandStr = body.Substring(0, CommEnd).Substring(1).ToLower();
             commandArgString = body.Substring(CommEnd);
             commandArgs = commandArgString.Split(' ');
 
