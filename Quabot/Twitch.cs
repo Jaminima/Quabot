@@ -1,5 +1,7 @@
 ﻿using DTBot_Template.Data;
+using System.Linq;
 using System.Threading.Tasks;
+using TwitchLib.Api.V5;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
@@ -52,7 +54,14 @@ namespace DTBot_Template
 
             while (!_client.IsConnected) { System.Threading.Thread.Sleep(200); }
 
-            foreach (string C in channels) _client.JoinChannel(C);
+            while (_client.JoinedChannels.Count != channels.Length)
+            {
+                foreach (string C in channels)
+                {
+                    _client.JoinChannel(C,true);
+                    System.Threading.Thread.Sleep(500);
+                }
+            }
         }
 
         #endregion Constructors
