@@ -26,13 +26,14 @@ CREATE TABLE `currency_account` (
   `account_id` int(11) NOT NULL AUTO_INCREMENT,
   `currency_id` int(11) NOT NULL,
   `currency_balance` int(11) unsigned DEFAULT '0',
-  `discord_id` varchar(32) DEFAULT NULL,
-  `twitch_name` varchar(64) DEFAULT NULL,
+  `currency_user` int(11) NOT NULL,
   PRIMARY KEY (`account_id`,`currency_id`),
   UNIQUE KEY `acc_id_UNIQUE` (`account_id`),
   KEY `currency_idx` (`currency_id`),
-  CONSTRAINT `acc_cur` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
+  KEY `cur_usr_idx` (`currency_user`),
+  CONSTRAINT `acc_cur` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`),
+  CONSTRAINT `cur_acc` FOREIGN KEY (`currency_user`) REFERENCES `currency_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `currency_account` (
 
 LOCK TABLES `currency_account` WRITE;
 /*!40000 ALTER TABLE `currency_account` DISABLE KEYS */;
-INSERT INTO `currency_account` VALUES (34,1,3600,'300712019466911744','jccjaminima'),(35,1,1900,'330272728626233356',NULL),(36,1,1000,'165910220395118592',NULL),(37,2,1000,NULL,'jccjaminima');
+INSERT INTO `currency_account` VALUES (38,1,1000,1),(39,2,1000,1),(40,1,1000,2);
 /*!40000 ALTER TABLE `currency_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 15:24:07
+-- Dump completed on 2020-05-19 16:18:32

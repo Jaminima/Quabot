@@ -11,7 +11,7 @@ namespace DTBot_Template.Data
 
         public uint balance = 1000;
         public uint currency;
-        public Generics.User user;
+        public UserAccount user;
 
         #endregion Fields
 
@@ -25,7 +25,7 @@ namespace DTBot_Template.Data
         public _userInfo(Generics.User _user)
         {
             Table = "currency_account";
-            this.user = _user;
+            this.user = new UserAccount(_user);
         }
 
         public _userInfo(Generics.User _user, CurrencyConfig currency)
@@ -33,7 +33,7 @@ namespace DTBot_Template.Data
             this.currency = currency.Id;
             this.balance = currency.DefaultBalance;
             Table = "currency_account";
-            this.user = _user;
+            this.user = CacheHandler.FindAccount(_user);
         }
 
         #endregion Constructors
@@ -42,12 +42,13 @@ namespace DTBot_Template.Data
 
         public static _userInfo Find(User user, uint curid)
         {
+            UserAccount A = CacheHandler.FindAccount(user);
+
             List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
-                new Tuple<string, object>("@0", user.Discord_Id),
-                new Tuple<string, object>("@1", user.Twitch_Name),
-                new Tuple<string, object>("@2", curid)
+                new Tuple<string, object>("@0", A.Id),
+                new Tuple<string, object>("@1", curid)
             };
-            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_account WHERE (discord_id = @0 OR twitch_name = @1) AND currency_id = @2", Params);
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_account WHERE currency_user = @0 AND currency_id = @1", Params);
 
             if (Data.Count == 0) return null;
 
@@ -60,8 +61,8 @@ namespace DTBot_Template.Data
 
         public override object[] GetValues(bool IncludeProtected = true)
         {
-            if (IncludeProtected) return new object[] { Id, currency, balance, user.Discord_Id, user.Twitch_Name };
-            else return new object[] { null, currency, balance, user.Discord_Id, user.Twitch_Name };
+            if (IncludeProtected) return new object[] { Id, currency, balance, user.Id };
+            else return new object[] { null, currency, balance, user.Id };
         }
 
         public override void SetValues(object[] Data, bool OverrideProtected = false)
@@ -70,7 +71,7 @@ namespace DTBot_Template.Data
             currency = uint.Parse(Data[1].ToString());
             balance = uint.Parse(Data[2].ToString());
 
-            user = new Generics.User(Data[4].ToString(), Data[3].ToString());
+            user = UserAccount.Find(uint.Parse(Data[3].ToString()));
         }
 
         public override void Update()

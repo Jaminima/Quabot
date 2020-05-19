@@ -11,6 +11,7 @@ namespace DTBot_Template.Data
         private static Dictionary<CurrencyConfig, DateTime> _currencyCache = new Dictionary<CurrencyConfig, DateTime>();
         private static Dictionary<CurrencyParticipant, DateTime> _currencyParticipantCache = new Dictionary<CurrencyParticipant, DateTime>();
         private static List<_userInfo> _userCache = new List<_userInfo>();
+        private static List<UserAccount> _userAccCache = new List<UserAccount>();
 
         #endregion Fields
 
@@ -29,9 +30,49 @@ namespace DTBot_Template.Data
         public static _userInfo AddUser(_userInfo user)
         {
             user.Insert();
-            user = _userInfo.Find(user.user, user.currency);
+            user = _userInfo.Find(user.user.user, user.currency);
             _userCache.Add(user);
             return user;
+        }
+
+        public static UserAccount AddAccount(UserAccount user)
+        {
+            user.Insert();
+            user = UserAccount.Find(user.user);
+            _userAccCache.Add(user);
+            return user;
+        }
+
+        public static UserAccount FindAccount(User User)
+        {
+            UserAccount _userAcc = _userAccCache.Find(x => x.user.Equals(User));
+
+            if (_userAcc == null)
+            {
+                _userAcc = UserAccount.Find(User);
+                if (_userAcc != null) _userAccCache.Add(_userAcc);
+            }
+
+            if (_userAcc == null)
+            {
+                _userAcc = new UserAccount(User);
+                return AddAccount(_userAcc);
+            }
+
+            return _userAcc;
+        }
+
+        public static UserAccount FindAccount(uint AccId)
+        {
+            UserAccount _userAcc = _userAccCache.Find(x => x.Id == AccId);
+
+            if (_userAcc == null)
+            {
+                _userAcc = UserAccount.Find(AccId);
+                if (_userAcc != null) _userAccCache.Add(_userAcc);
+            }
+
+            return _userAcc;
         }
 
         public static CurrencyConfig FindCurrency(uint currencyId)

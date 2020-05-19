@@ -16,34 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `currency_participants`
+-- Table structure for table `currency_users`
 --
 
-DROP TABLE IF EXISTS `currency_participants`;
+DROP TABLE IF EXISTS `currency_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `currency_participants` (
-  `currency_id` int(11) NOT NULL,
-  `streamer_id` int(11) NOT NULL,
-  `discord_guild` varchar(32) DEFAULT NULL,
+CREATE TABLE `currency_users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `discord_id` varchar(45) DEFAULT NULL,
   `twitch_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`currency_id`,`streamer_id`),
-  UNIQUE KEY `discord_guild_UNIQUE` (`discord_guild`),
-  UNIQUE KEY `twitch_name_UNIQUE` (`twitch_name`),
-  KEY `streamer_idx` (`streamer_id`),
-  CONSTRAINT `currency` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `streamer` FOREIGN KEY (`streamer_id`) REFERENCES `streamer_account` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `currency_participants`
+-- Dumping data for table `currency_users`
 --
 
-LOCK TABLES `currency_participants` WRITE;
-/*!40000 ALTER TABLE `currency_participants` DISABLE KEYS */;
-INSERT INTO `currency_participants` VALUES (1,1,'678011054172798991','jccjaminima'),(2,1,'443459293245865985','harbonator');
-/*!40000 ALTER TABLE `currency_participants` ENABLE KEYS */;
+LOCK TABLES `currency_users` WRITE;
+/*!40000 ALTER TABLE `currency_users` DISABLE KEYS */;
+INSERT INTO `currency_users` VALUES (1,'300712019466911744','jccjaminima'),(2,'330272728626233356',NULL);
+/*!40000 ALTER TABLE `currency_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 16:18:31
+-- Dump completed on 2020-05-19 16:18:33
