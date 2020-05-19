@@ -28,6 +28,9 @@ CREATE TABLE `currency_config` (
   `currency_name` varchar(16) NOT NULL DEFAULT 'tokens',
   `simple_responses` longtext,
   `custom_emotes` longtext,
+  `fish_rewards` longtext,
+  `fish_wait` int(10) unsigned DEFAULT '30',
+  `fish_cost` int(10) unsigned DEFAULT '200',
   `message_reward_delay` int(10) unsigned DEFAULT '120',
   `message_reward` int(10) unsigned DEFAULT '50',
   `default_balance` int(10) unsigned DEFAULT '1000',
@@ -44,7 +47,7 @@ CREATE TABLE `currency_config` (
 
 LOCK TABLES `currency_config` WRITE;
 /*!40000 ALTER TABLE `currency_config` DISABLE KEYS */;
-INSERT INTO `currency_config` VALUES (1,1,'JamCoin','github¬https://github.com/Jaminima/Quabot;discord¬https://discord.gg/TRDJhv','bread¬<:Meatloath:686982222825521156>¬VapeNation;',120,50,1000),(2,1,'OwlCoin','github¬https://github.com/Jaminima/Quabot','owl¬Oogla¬owlcoin;',120,50,1000);
+INSERT INTO `currency_config` VALUES (1,1,'JamCoin','github¬https://github.com/Jaminima/Quabot;discord¬https://discord.gg/TRDJhv','bread¬<:Meatloath:686982222825521156>¬VapeNation','corpse¬10¬1000;potato¬90¬0',30,200,120,50,1000),(2,1,'OwlCoin','github¬https://github.com/Jaminima/Quabot','owl¬Oogla¬owlcoin','corpse¬10¬1000;potato¬90¬0',30,200,120,50,1000);
 /*!40000 ALTER TABLE `currency_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 11:15:36
+-- Dump completed on 2020-05-19 15:24:10

@@ -32,7 +32,7 @@ CREATE TABLE `currency_account` (
   UNIQUE KEY `acc_id_UNIQUE` (`account_id`),
   KEY `currency_idx` (`currency_id`),
   CONSTRAINT `acc_cur` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `currency_account` (
 
 LOCK TABLES `currency_account` WRITE;
 /*!40000 ALTER TABLE `currency_account` DISABLE KEYS */;
-INSERT INTO `currency_account` VALUES (34,1,1050,'300712019466911744','jccjaminima');
+INSERT INTO `currency_account` VALUES (34,1,3600,'300712019466911744','jccjaminima'),(35,1,1900,'330272728626233356',NULL),(36,1,1000,'165910220395118592',NULL),(37,2,1000,NULL,'jccjaminima');
 /*!40000 ALTER TABLE `currency_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 11:15:33
+-- Dump completed on 2020-05-19 15:24:07
