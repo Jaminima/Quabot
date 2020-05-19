@@ -13,6 +13,10 @@ namespace DTBot_Template.Data
         public string name;
         public Dictionary<string, string> SimpleResponses;
         public Dictionary<string, Emote> CustomEmotes;
+        public FishReward[] FishRewards;
+
+        public uint FishWait;
+        public uint FishCost;
 
         public uint MessageRewardDelay;
         public uint MessageReward;
@@ -62,10 +66,15 @@ namespace DTBot_Template.Data
 
             CustomEmotes = Data[4].ToString().TrimEnd(';').Split(';').ToDictionary(x => '{'+x.Split('¬')[0]+'}',x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
 
-            MessageRewardDelay = uint.Parse(Data[5].ToString());
-            MessageReward = uint.Parse(Data[6].ToString());
+            FishRewards = Data[5].ToString().TrimEnd(';').Split(';').Select(x => new FishReward(x.Split('¬')[0], uint.Parse(x.Split('¬')[1]), uint.Parse(x.Split('¬')[2]))).ToArray();
 
-            DefaultBalance = uint.Parse(Data[7].ToString());
+            FishWait = uint.Parse(Data[6].ToString());
+            FishCost = uint.Parse(Data[7].ToString());
+
+            MessageRewardDelay = uint.Parse(Data[8].ToString());
+            MessageReward = uint.Parse(Data[9].ToString());
+
+            DefaultBalance = uint.Parse(Data[10].ToString());
         }
 
         #endregion Methods
@@ -88,6 +97,19 @@ namespace DTBot_Template.Data
         {
             this.Twitch = Twitch;
             this.Discord = Discord;
+        }
+    }
+
+    public class FishReward
+    {
+        public string Name;
+        public uint Reward, Odds;
+
+        public FishReward(string Name, uint Odds, uint Reward)
+        {
+            this.Name = Name;
+            this.Odds = Odds;
+            this.Reward = Reward;
         }
     }
 }

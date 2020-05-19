@@ -3,11 +3,14 @@ using DTBot_Template.Data._MySQL;
 using DTBot_Template.Events;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace DTBot_Template
 {
     public class Controller
     {
+        public static Random rnd = new Random();
+
         private static BotConfig botConfig;
         public static DTBot_Template.Discord dBot;
         public static DTBot_Template.Twitch tBot;
@@ -39,6 +42,8 @@ namespace DTBot_Template
                 dBot.CommandHandler += ChatEvents.HandleCommand;
 
                 Console.WriteLine("Bots Started");
+
+                new Thread(() => Rewards.RewardChecker()).Start();
             }
         }
     }
