@@ -10,8 +10,8 @@ namespace DTBot_Template.Data
 
         private static Dictionary<CurrencyConfig, DateTime> _currencyCache = new Dictionary<CurrencyConfig, DateTime>();
         private static Dictionary<CurrencyParticipant, DateTime> _currencyParticipantCache = new Dictionary<CurrencyParticipant, DateTime>();
-        private static List<UserAccount> _userAccCache = new List<UserAccount>();
-        private static List<_userInfo> _userCache = new List<_userInfo>();
+        private static Dictionary<UserAccount,DateTime> _userAccCache = new Dictionary<UserAccount, DateTime>();
+        private static Dictionary<_userInfo,DateTime> _userCache = new Dictionary<_userInfo, DateTime>();
 
         #endregion Fields
 
@@ -31,7 +31,7 @@ namespace DTBot_Template.Data
         {
             user.Insert();
             user = UserAccount.Find(user.user);
-            _userAccCache.Add(user);
+            _userAccCache.Add(user,DateTime.Now);
             return user;
         }
 
@@ -39,18 +39,18 @@ namespace DTBot_Template.Data
         {
             user.Insert();
             user = _userInfo.Find(user.user.user, user.currency);
-            _userCache.Add(user);
+            _userCache.Add(user,DateTime.Now);
             return user;
         }
 
         public static UserAccount FindAccount(User User)
         {
-            UserAccount _userAcc = _userAccCache.Find(x => x.user.Equals(User));
+            UserAccount _userAcc = Find(_userAccCache,x => x.user.Equals(User));
 
             if (_userAcc == null)
             {
                 _userAcc = UserAccount.Find(User);
-                if (_userAcc != null) _userAccCache.Add(_userAcc);
+                if (_userAcc != null) _userAccCache.Add(_userAcc,DateTime.Now);
             }
 
             if (_userAcc == null)
@@ -64,12 +64,12 @@ namespace DTBot_Template.Data
 
         public static UserAccount FindAccount(uint AccId)
         {
-            UserAccount _userAcc = _userAccCache.Find(x => x.Id == AccId);
+            UserAccount _userAcc = Find(_userAccCache,x => x.Id == AccId);
 
             if (_userAcc == null)
             {
                 _userAcc = UserAccount.Find(AccId);
-                if (_userAcc != null) _userAccCache.Add(_userAcc);
+                if (_userAcc != null) _userAccCache.Add(_userAcc,DateTime.Now);
             }
 
             return _userAcc;
@@ -105,12 +105,12 @@ namespace DTBot_Template.Data
 
         public static _userInfo FindUser(User user, CurrencyConfig currency)
         {
-            _userInfo _uInfo = _userCache.Find(x => x.user.Equals(user) && x.currency == currency.Id);
+            _userInfo _uInfo =Find(_userCache,x => x.user.Equals(user) && x.currency == currency.Id);
 
             if (_uInfo == null)
             {
                 _uInfo = _userInfo.Find(user, currency.Id);
-                if (_uInfo != null) _userCache.Add(_uInfo);
+                if (_uInfo != null) _userCache.Add(_uInfo,DateTime.Now);
             }
 
             if (_uInfo == null)
