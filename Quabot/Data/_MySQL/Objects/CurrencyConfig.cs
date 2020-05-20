@@ -19,6 +19,10 @@ namespace DTBot_Template.Data
         public string name;
         public Dictionary<string, string> SimpleResponses;
 
+        public string[] BalanceCommands;
+        public string[] PayCommands;
+        public string[] FishCommands;
+
         #endregion Fields
 
         #region Constructors
@@ -58,11 +62,11 @@ namespace DTBot_Template.Data
             Id = uint.Parse(Data[0].ToString());
             name = Data[2].ToString();
 
-            SimpleResponses = Data[3].ToString().TrimEnd(';').Split(';').ToDictionary(x => x.Split('¬')[0], x => x.Split('¬')[1]);
+            SimpleResponses = FormatSet(Data[3]).ToDictionary(x => x.Split('¬')[0], x => x.Split('¬')[1]);
 
-            CustomEmotes = Data[4].ToString().TrimEnd(';').Split(';').ToDictionary(x => '{' + x.Split('¬')[0] + '}', x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
+            CustomEmotes = FormatSet(Data[4]).ToDictionary(x => '{' + x.Split('¬')[0] + '}', x => new Emote(x.Split('¬')[2], x.Split('¬')[1]));
 
-            FishRewards = Data[5].ToString().TrimEnd(';').Split(';').Select(x => new FishReward(x.Split('¬')[0], uint.Parse(x.Split('¬')[1]), uint.Parse(x.Split('¬')[2]))).ToArray();
+            FishRewards = FormatSet(Data[5]).Select(x => new FishReward(x.Split('¬')[0], uint.Parse(x.Split('¬')[1]), uint.Parse(x.Split('¬')[2]))).ToArray();
 
             FishWait = uint.Parse(Data[6].ToString());
             FishCost = uint.Parse(Data[7].ToString());
@@ -71,6 +75,15 @@ namespace DTBot_Template.Data
             MessageReward = uint.Parse(Data[9].ToString());
 
             DefaultBalance = uint.Parse(Data[10].ToString());
+
+            BalanceCommands = FormatSet(Data[11]);
+            PayCommands = FormatSet(Data[12]);
+            FishCommands = FormatSet(Data[13]);
+        }
+
+        private string[] FormatSet(object O)
+        {
+            return O.ToString().TrimEnd(';').Split(';');
         }
 
         #endregion Methods

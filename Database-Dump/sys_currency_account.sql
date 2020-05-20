@@ -33,18 +33,8 @@ CREATE TABLE `currency_account` (
   KEY `cur_usr_idx` (`currency_user`),
   CONSTRAINT `acc_cur` FOREIGN KEY (`currency_id`) REFERENCES `currency_config` (`currency_id`),
   CONSTRAINT `cur_acc` FOREIGN KEY (`currency_user`) REFERENCES `currency_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `currency_account`
---
-
-LOCK TABLES `currency_account` WRITE;
-/*!40000 ALTER TABLE `currency_account` DISABLE KEYS */;
-INSERT INTO `currency_account` VALUES (38,1,1000,1),(39,2,1000,1),(40,1,1000,2);
-/*!40000 ALTER TABLE `currency_account` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -55,4 +45,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 16:18:32
+-- Dump completed on 2020-05-20  8:07:25

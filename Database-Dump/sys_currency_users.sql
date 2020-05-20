@@ -27,18 +27,8 @@ CREATE TABLE `currency_users` (
   `discord_id` varchar(45) DEFAULT NULL,
   `twitch_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `currency_users`
---
-
-LOCK TABLES `currency_users` WRITE;
-/*!40000 ALTER TABLE `currency_users` DISABLE KEYS */;
-INSERT INTO `currency_users` VALUES (1,'300712019466911744','jccjaminima'),(2,'330272728626233356',NULL);
-/*!40000 ALTER TABLE `currency_users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -49,4 +39,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 16:18:33
+-- Dump completed on 2020-05-20  8:07:26

@@ -11,6 +11,8 @@ namespace DTBot_Template.Data
         private const string conf_Path = "./Data/Config.json";
         public string twitch_Username, twitch_token, discord_Token, sql_Server, sql_Username, sql_Password;
 
+        public uint CacheTimeout;
+
         #endregion Fields
 
         #region Methods

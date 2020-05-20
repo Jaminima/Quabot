@@ -30,16 +30,6 @@ CREATE TABLE `streamer_account` (
   UNIQUE KEY `twitch_email_UNIQUE` (`twitch_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `streamer_account`
---
-
-LOCK TABLES `streamer_account` WRITE;
-/*!40000 ALTER TABLE `streamer_account` DISABLE KEYS */;
-INSERT INTO `streamer_account` VALUES (1,'osc.d');
-/*!40000 ALTER TABLE `streamer_account` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -50,4 +40,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 16:18:30
+-- Dump completed on 2020-05-20  8:07:23

@@ -34,22 +34,15 @@ CREATE TABLE `currency_config` (
   `message_reward_delay` int(10) unsigned DEFAULT '120',
   `message_reward` int(10) unsigned DEFAULT '50',
   `default_balance` int(10) unsigned DEFAULT '1000',
+  `balance_commands` varchar(128) DEFAULT 'bal;balance',
+  `pay_commands` varchar(128) DEFAULT 'pay',
+  `fish_commands` varchar(128) DEFAULT 'fish;fishing',
   PRIMARY KEY (`currency_id`),
   UNIQUE KEY `cur_id_UNIQUE` (`currency_id`),
   KEY `currency owner_idx` (`streamer_id`),
   CONSTRAINT `currency owner` FOREIGN KEY (`streamer_id`) REFERENCES `streamer_account` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `currency_config`
---
-
-LOCK TABLES `currency_config` WRITE;
-/*!40000 ALTER TABLE `currency_config` DISABLE KEYS */;
-INSERT INTO `currency_config` VALUES (1,1,'JamCoin','github¬https://github.com/Jaminima/Quabot;discord¬https://discord.gg/TRDJhv','bread¬<:Meatloath:686982222825521156>¬VapeNation','corpse¬10¬1000;potato¬90¬0',30,200,120,50,1000),(2,1,'OwlCoin','github¬https://github.com/Jaminima/Quabot','owl¬Oogla¬owlcoin','corpse¬10¬1000;potato¬90¬0',30,200,120,50,1000);
-/*!40000 ALTER TABLE `currency_config` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -60,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 16:18:29
+-- Dump completed on 2020-05-20  8:07:22

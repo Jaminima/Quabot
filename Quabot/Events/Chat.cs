@@ -1,5 +1,6 @@
 ﻿using DTBot_Template.Data;
 using DTBot_Template.Generics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DTBot_Template.Events
@@ -15,13 +16,13 @@ namespace DTBot_Template.Events
 
             switch (command.commandStr)
             {
-                case "echo":
-                    await Bot.SendMessage(command.channel, command.commandArgString, command.Source, currency);
-                    break;
+                //case "echo":
+                //    await Bot.SendMessage(command.channel, command.commandArgString, command.Source, currency);
+                //    break;
 
-                case "echodm":
-                    await Bot.SendDM(command.sender, command.commandArgString, command.Source, currency);
-                    break;
+                //case "echodm":
+                //    await Bot.SendDM(command.sender, command.commandArgString, command.Source, currency);
+                //    break;
 
                 //case "wtf":
                 //    new Thread(async() => await Bot.SendMessage(command, "{User} this was sent from another thread", currency)).Start();
@@ -29,13 +30,16 @@ namespace DTBot_Template.Events
                 ////    await Bot.SendMessage(command.channel, Streamlabs.GetDonations(botConfig.Streamlabs).ToString());
                 //    break;
 
-                case "bal":
+                //case null when currency.BalanceCommands.Contains(command.commandStr):
+                //    break;
+
+                case string S when currency.BalanceCommands.Contains(command.commandStr):
 
                     if (command.mentions.Length == 0) await Bot.SendMessage(command, "{User} You Have {Value} {Currency}", currency, bank.balance);
                     else await Bot.SendMessage(command, "{User} {User0} Has {Value} {Currency}", currency, tBanks[0].balance);
                     break;
 
-                case "pay":
+                case string S when currency.PayCommands.Contains(command.commandStr):
                     if (command.mentions.Length > 0 && command.values.Length > 0)
                     {
                         if (bank.balance >= command.values[0])
@@ -51,7 +55,7 @@ namespace DTBot_Template.Events
                     else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}", currency);
                     break;
 
-                case "fish":
+                case string S when currency.FishCommands.Contains(command.commandStr):
                     if (Rewards.AddFisher(Bot, command, bank, currency)) { await Bot.SendMessage(command, "{User} You Started Fishing", currency); bank.balance -= currency.FishCost; bank.Update(); }
                     else await Bot.SendMessage(command, "{User} You Are Already Fishing!", currency);
                     break;
