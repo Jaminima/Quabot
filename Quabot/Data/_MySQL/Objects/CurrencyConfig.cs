@@ -22,6 +22,9 @@ namespace DTBot_Template.Data
         public string[] BalanceCommands;
         public string[] PayCommands;
         public string[] FishCommands;
+        public string[] GambleCommands;
+
+        public uint GambleOdds;
 
         #endregion Fields
 
@@ -79,6 +82,9 @@ namespace DTBot_Template.Data
             BalanceCommands = FormatSet(Data[11]);
             PayCommands = FormatSet(Data[12]);
             FishCommands = FormatSet(Data[13]);
+            GambleCommands = FormatSet(Data[14]);
+
+            GambleOdds = uint.Parse(Data[15].ToString());
         }
 
         private string[] FormatSet(object O)

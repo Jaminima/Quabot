@@ -52,12 +52,32 @@ namespace DTBot_Template.Events
                         }
                         else await Bot.SendMessage(command, "{User} You Only Have {Value} {Currency}", currency, bank.balance);
                     }
-                    else await Bot.SendMessage(command, "{User} You Fucked Up {NWord}", currency);
+                    else await Bot.SendMessage(command, "{User} You Havent Specifided Who And/Or How Much To Pay", currency);
                     break;
 
                 case string S when currency.FishCommands.Contains(command.commandStr):
                     if (Rewards.AddFisher(Bot, command, bank, currency)) { await Bot.SendMessage(command, "{User} You Started Fishing", currency); bank.balance -= currency.FishCost; bank.Update(); }
                     else await Bot.SendMessage(command, "{User} You Are Already Fishing!", currency);
+                    break;
+
+
+                case string S when currency.GambleCommands.Contains(command.commandStr):
+                    if (command.values.Length > 0)
+                    {
+                        int Num = Controller.rnd.Next(0, 100);
+                        if (currency.GambleOdds > Num) {
+                            bank.balance += command.values[0];
+                            bank.Update();
+                            await Bot.SendMessage(command, "{User} You Won {Value} {Currency}", currency, command.values[0]);
+                        }
+                        else
+                        {
+                            bank.balance -= command.values[0];
+                            bank.Update();
+                            await Bot.SendMessage(command, "{User} You Lost {Value} {Currency}", currency, command.values[0]);
+                        }
+                    }
+                    else await Bot.SendMessage(command, "{User} You Didnt Specify a Value", currency);
                     break;
 
                 default:
