@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Site.Backend._MySQL;
+using Site.Backend.Data._MySQL;
 using Site.Backend.Data;
 
 namespace Site

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Site.Backend._MySQL
+namespace Site.Backend.Data._MySQL
 {
     public class SQLObj
     {
