@@ -5,5 +5,6 @@ Build/
 Release/
 Bin/
 packages/
+Site/Site/Data/
 .idea/
 *.jpg
