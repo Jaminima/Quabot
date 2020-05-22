@@ -37,9 +37,31 @@ namespace Site.Backend.Data._MySQL.Objects
             Table = "currency_config";
         }
 
+        public CurrencyConfig(uint streamerid)
+        {
+            Table = "currency_config";
+            StreamerId = streamerid;
+        }
+
         #endregion Constructors
 
         #region Methods
+
+        public static CurrencyConfig[] FindByStreamer(uint strmid)
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", strmid)
+            };
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_config WHERE streamer_id = @0", Params);
+
+            if (Data.Count == 0) return null;
+
+            List<CurrencyConfig> temp = new List<CurrencyConfig>();
+
+            Data.ForEach(x => { temp.Add(new CurrencyConfig()); temp.Last().SetValues(x); });
+
+            return temp.ToArray();
+        }
 
         public static CurrencyConfig Find(uint curid)
         {
@@ -60,21 +82,26 @@ namespace Site.Backend.Data._MySQL.Objects
         public override object[] GetValues(bool IncludeProtected = true)
         {
             //Need to convert all data to be returnable
-            return new object[] { null, 
-                StreamerId, 
+            if (SimpleResponses == null) return new object[] { null,
+                StreamerId,
+                null, null, null, null, null,null,null,null,null,null,null,null,null,null
+            };
+
+            else return new object[] { null,
+                StreamerId,
                 name,
-                null,
-                null,
-                null,
+                StringSet(SimpleResponses.Select(x=>x.Key.TrimStart('{').TrimEnd('}')+'¬'+x.Value).ToArray()),
+                StringSet(CustomEmotes.Select(x=>x.Key.TrimStart('{').TrimEnd('}')+'¬'+x.Value.Discord+'¬'+x.Value.Twitch).ToArray()),
+                StringSet(FishRewards.Select(x=>x.Name+'¬'+x.Odds+'¬'+x.Reward).ToArray()),
                 FishWait,
                 FishCost,
                 MessageRewardDelay,
                 MessageReward,
                 DefaultBalance,
-                null,
-                null,
-                null,
-                null,
+                StringSet(BalanceCommands),
+                StringSet(PayCommands),
+                StringSet(FishCommands),
+                StringSet(GambleCommands),
                 GambleOdds
             };
         }
@@ -105,6 +132,13 @@ namespace Site.Backend.Data._MySQL.Objects
             GambleCommands = FormatSet(Data[14]);
 
             GambleOdds = uint.Parse(Data[15].ToString());
+        }
+
+        private string StringSet(string[] Set)
+        {
+            string Out = "";
+            foreach (string S in Set) Out += S + ';';
+            return Out.TrimEnd(';');
         }
 
         private string[] FormatSet(object O)

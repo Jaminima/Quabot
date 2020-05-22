@@ -56,8 +56,12 @@ namespace Site.Backend.Data._MySQL
             List<Tuple<string, object>> Params = new List<Tuple<string, object>>();
             foreach (object obj in GetValues(false))
             {
-                Vs += "@" + i + ",";
-                Params.Add(new Tuple<string, object>("@" + i, obj));
+                if (obj != null)
+                {
+                    Vs += "@" + i + ",";
+                    Params.Add(new Tuple<string, object>("@" + i, obj));
+                }
+                else Vs += "default,";
                 i++;
             }
             Vs = Vs.TrimEnd(',');

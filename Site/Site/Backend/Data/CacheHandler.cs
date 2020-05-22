@@ -31,6 +31,17 @@ namespace Site.Backend.Data
             return default(T);
         }
 
+        private static T[] FindAll<T>(Dictionary<T, DateTime> Cache, Func<T, bool> Pred)
+        {
+            List<T> temp = new List<T>();
+            foreach (T Key in Cache.Keys)
+            {
+                if ((DateTime.Now - Cache[Key]).TotalSeconds > 60) Cache.Remove(Key);
+                else if (Pred(Key)) temp.Add(Key);
+            }
+            return temp.ToArray();
+        }
+
         private static UserAccount AddAccount(UserAccount user)
         {
             user.Insert();
@@ -133,14 +144,19 @@ namespace Site.Backend.Data
             return _currency;
         }
 
-        public static CurrencyConfig FindCurrency(string Source, Source source)
+        public static CurrencyConfig[] FindCurrencyByStreamer(uint streamerid)
         {
-            CurrencyParticipant _participant = Find(_currencyParticipantCache, x => (x.discord_guild == Source && source == Generics.Source.Discord) || (x.twitch_name == Source && source == Generics.Source.Twitch));
+            return CurrencyConfig.FindByStreamer(streamerid);
+        }
+
+        public static CurrencyConfig FindCurrency(string sIdentifier, Source source)
+        {
+            CurrencyParticipant _participant = Find(_currencyParticipantCache, x => (x.discord_guild == sIdentifier && source == Generics.Source.Discord) || (x.twitch_name == sIdentifier && source == Generics.Source.Twitch));
 
             if (_participant == null)
             {
-                if (source == Generics.Source.Discord) _participant = CurrencyParticipant.FindDiscord(Source);
-                else _participant = CurrencyParticipant.FindTwitch(Source);
+                if (source == Generics.Source.Discord) _participant = CurrencyParticipant.FindDiscord(sIdentifier);
+                else _participant = CurrencyParticipant.FindTwitch(sIdentifier);
 
                 if (_participant != null) _currencyParticipantCache.Add(_participant, DateTime.Now);
             }

@@ -22,9 +22,31 @@ namespace Site.Backend.Data._MySQL.Objects
             Table = "currency_participants";
         }
 
+        public CurrencyParticipant(uint currencyid, uint streamerid)
+        {
+            this.currencyid = currencyid;
+            this.streamerid = streamerid;
+        }
+
         #endregion Constructors
 
         #region Methods
+
+        public static CurrencyParticipant[] FindStreamer(uint streamerid)
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", streamerid)
+            };
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_participants WHERE streamer_id = @0", Params);
+
+            if (Data.Count == 0) return null;
+
+            List<CurrencyParticipant> temp = new List<CurrencyParticipant>();
+
+            Data.ForEach(x => { temp.Add(new CurrencyParticipant()); temp.Last().SetValues(x); });
+
+            return temp.ToArray();
+        }
 
         public static CurrencyParticipant FindDiscord(string GuildID)
         {
