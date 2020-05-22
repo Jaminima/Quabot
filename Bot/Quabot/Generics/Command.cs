@@ -1,4 +1,5 @@
 ﻿using Discord.WebSocket;
+using DTBot_Template.Data;
 using System.Collections.Generic;
 using System.Linq;
 using TwitchLib.Client.Models;
@@ -30,6 +31,7 @@ namespace DTBot_Template.Generics
             foreach (string s in commandArgs)
             {
                 if (uint.TryParse(s, out tInt)) uints.Add(tInt);
+                else if (s.ToLower() == "all") uints.Add(Bank.balance);
             }
             return uints.ToArray();
         }
@@ -52,12 +54,14 @@ namespace DTBot_Template.Generics
         public readonly string commandStr, commandArgString;
         public readonly User[] mentions;
         public readonly uint[] values;
+        public readonly _userInfo Bank;
+        public readonly _userInfo[] @edBanks;
 
         public Command()
         {
         }
 
-        public Command(ChatCommand args) : base(args.ChatMessage)
+        public Command(ChatCommand args, CurrencyConfig currency) : base(args.ChatMessage)
         {
             source = Source.Twitch;
             commandStr = args.CommandText.ToLower();
@@ -65,10 +69,14 @@ namespace DTBot_Template.Generics
             commandArgString = args.ArgumentsAsString;
 
             this.mentions = GetMentions();
+
+            Bank = CacheHandler.FindUser(sender, currency); 
+            @edBanks = CacheHandler.FindUsers(mentions, currency);
+
             this.values = GetValues();
         }
 
-        public Command(SocketMessage args) : base(args)
+        public Command(SocketMessage args, CurrencyConfig currency) : base(args)
         {
             source = Source.Discord;
             int CommEnd = body.IndexOf(' ');
@@ -79,6 +87,10 @@ namespace DTBot_Template.Generics
             commandArgs = commandArgString.Split(' ');
 
             this.mentions = GetMentions();
+
+            Bank = CacheHandler.FindUser(sender, currency);
+            @edBanks = CacheHandler.FindUsers(mentions, currency);
+
             this.values = GetValues();
         }
     }

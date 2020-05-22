@@ -11,8 +11,8 @@ namespace DTBot_Template.Events
 
         public static async Task HandleCommand(Command command, BaseBot Bot, CurrencyConfig currency)
         {
-            _userInfo[] tBanks = CacheHandler.FindUsers(command.mentions, currency);
-            _userInfo bank = CacheHandler.FindUser(command.sender, currency);
+            _userInfo[] tBanks = command.@edBanks;
+            _userInfo bank = command.Bank;
 
             switch (command.commandStr)
             {

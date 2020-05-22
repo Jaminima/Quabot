@@ -20,15 +20,16 @@ namespace DTBot_Template
         {
             if (!args.Author.IsBot)
             {
+                CurrencyConfig C = CacheHandler.FindCurrency(((SocketGuildChannel)args.Channel).Guild.Id.ToString(), Generics.Source.Discord);
                 if (args.Content[0] == Command)
                 {
-                    Generics.Command command = new Generics.Command(args);
-                    await CommandHandler(command, this, CacheHandler.FindCurrency(((SocketGuildChannel)command.discord_Source.Channel).Guild.Id.ToString(), command.Source));
+                    Generics.Command command = new Generics.Command(args,C);
+                    await CommandHandler(command, this, C);
                 }
                 else
                 {
                     Generics.Message message = new Generics.Message(args);
-                    await MessageHandler(message, this, CacheHandler.FindCurrency(((SocketGuildChannel)message.discord_Source.Channel).Guild.Id.ToString(), message.Source));
+                    await MessageHandler(message, this, C);
                 }
             }
         }
