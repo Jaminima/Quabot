@@ -15,6 +15,7 @@ namespace Site.Backend.Data
         private static Dictionary<CurrencyParticipant, DateTime> _currencyParticipantCache = new Dictionary<CurrencyParticipant, DateTime>();
         private static Dictionary<UserAccount, DateTime> _userAccCache = new Dictionary<UserAccount, DateTime>();
         private static Dictionary<_userInfo, DateTime> _userCache = new Dictionary<_userInfo, DateTime>();
+        private static Dictionary<Streamer, DateTime> _streamerCache = new Dictionary<Streamer, DateTime>();
 
         #endregion Fields
 
@@ -30,7 +31,7 @@ namespace Site.Backend.Data
             return default(T);
         }
 
-        public static UserAccount AddAccount(UserAccount user)
+        private static UserAccount AddAccount(UserAccount user)
         {
             user.Insert();
             user = UserAccount.Find(user.user);
@@ -38,12 +39,53 @@ namespace Site.Backend.Data
             return user;
         }
 
-        public static _userInfo AddUser(_userInfo user)
+        private static _userInfo AddUser(_userInfo user)
         {
             user.Insert();
             user = _userInfo.Find(user.user.user, user.currency);
             _userCache.Add(user, DateTime.Now);
             return user;
+        }
+
+        private static Streamer AddStreamer(Streamer strmr)
+        {
+            strmr.Insert();
+            strmr = Streamer.Find(strmr.twitch_name);
+            _streamerCache.Add(strmr, DateTime.Now);
+            return strmr;
+        }
+
+        public static Streamer FindStreamer(uint streamerid)
+        {
+            Streamer _streamer = Find(_streamerCache, x => x.Id == streamerid);
+
+            if (_streamer == null)
+            {
+                _streamer = Streamer.Find(streamerid);
+                if (_streamer != null) _streamerCache.Add(_streamer, DateTime.Now);
+            }
+
+            return _streamer;
+        }
+
+        public static Streamer FindStreamer(string twitch_name, string twitch_email)
+        {
+            Streamer _streamer = Find(_streamerCache, x => x.twitch_name == twitch_name);
+
+            if (_streamer == null)
+            {
+                _streamer = Streamer.Find(twitch_name);
+                if (_streamer != null) _streamerCache.Add(_streamer, DateTime.Now);
+            }
+
+            if (_streamer == null)
+            {
+                _streamer = new Streamer(twitch_name, twitch_email);
+                return AddStreamer(_streamer);
+            }
+
+
+            return _streamer;
         }
 
         public static UserAccount FindAccount(User User)

@@ -9,6 +9,8 @@ namespace Site.Backend.Data._MySQL.Objects
     {
         #region Fields
 
+        public uint StreamerId;
+
         public Dictionary<string, Emote> CustomEmotes;
         public uint DefaultBalance;
         public uint FishCost;
@@ -57,12 +59,30 @@ namespace Site.Backend.Data._MySQL.Objects
 
         public override object[] GetValues(bool IncludeProtected = true)
         {
-            return new object[] { Id, null, name };
+            //Need to convert all data to be returnable
+            return new object[] { null, 
+                StreamerId, 
+                name,
+                null,
+                null,
+                null,
+                FishWait,
+                FishCost,
+                MessageRewardDelay,
+                MessageReward,
+                DefaultBalance,
+                null,
+                null,
+                null,
+                null,
+                GambleOdds
+            };
         }
 
         public override void SetValues(object[] Data, bool OverrideProtected = false)
         {
             Id = uint.Parse(Data[0].ToString());
+            StreamerId = uint.Parse(Data[1].ToString());
             name = Data[2].ToString();
 
             SimpleResponses = FormatSet(Data[3]).ToDictionary(x => x.Split('¬')[0], x => x.Split('¬')[1]);
