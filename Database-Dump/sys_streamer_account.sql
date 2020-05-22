@@ -25,10 +25,12 @@ DROP TABLE IF EXISTS `streamer_account`;
 CREATE TABLE `streamer_account` (
   `streamer_id` int(11) NOT NULL AUTO_INCREMENT,
   `twitch_email` varchar(128) NOT NULL,
+  `twitch_name` varchar(128) NOT NULL,
   PRIMARY KEY (`streamer_id`),
   UNIQUE KEY `str_id_UNIQUE` (`streamer_id`),
-  UNIQUE KEY `twitch_email_UNIQUE` (`twitch_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `twitch_email_UNIQUE` (`twitch_email`),
+  UNIQUE KEY `twitch_name_UNIQUE` (`twitch_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -40,4 +42,4 @@ CREATE TABLE `streamer_account` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-20  8:07:23
+-- Dump completed on 2020-05-22 12:54:46

@@ -25,10 +25,10 @@ DROP TABLE IF EXISTS `currency_config`;
 CREATE TABLE `currency_config` (
   `currency_id` int(11) NOT NULL AUTO_INCREMENT,
   `streamer_id` int(11) NOT NULL,
-  `currency_name` varchar(16) NOT NULL DEFAULT 'tokens',
-  `simple_responses` longtext,
-  `custom_emotes` longtext,
-  `fish_rewards` longtext,
+  `currency_name` varchar(16) DEFAULT 'tokens',
+  `simple_responses` varchar(256) DEFAULT 'discord¬Discord Link',
+  `custom_emotes` varchar(256) DEFAULT 'coin¬<:Meatloath:686982222825521156>¬MeatLoath',
+  `fish_rewards` varchar(256) DEFAULT 'corpse¬10¬1000;potato¬90¬0',
   `fish_wait` int(10) unsigned DEFAULT '30',
   `fish_cost` int(10) unsigned DEFAULT '200',
   `message_reward_delay` int(10) unsigned DEFAULT '120',
@@ -37,11 +37,13 @@ CREATE TABLE `currency_config` (
   `balance_commands` varchar(128) DEFAULT 'bal;balance',
   `pay_commands` varchar(128) DEFAULT 'pay',
   `fish_commands` varchar(128) DEFAULT 'fish;fishing',
+  `gamble_commands` varchar(128) DEFAULT 'gamble',
+  `gamble_odds` int(10) unsigned DEFAULT '40',
   PRIMARY KEY (`currency_id`),
   UNIQUE KEY `cur_id_UNIQUE` (`currency_id`),
   KEY `currency owner_idx` (`streamer_id`),
   CONSTRAINT `currency owner` FOREIGN KEY (`streamer_id`) REFERENCES `streamer_account` (`streamer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +55,4 @@ CREATE TABLE `currency_config` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-20  8:07:22
+-- Dump completed on 2020-05-22 12:54:45
