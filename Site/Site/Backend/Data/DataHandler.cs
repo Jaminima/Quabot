@@ -11,8 +11,6 @@ namespace Site.Backend.Data
     {
         #region Fields
 
-        private static Dictionary<_userInfo, DateTime> _userCache = new Dictionary<_userInfo, DateTime>();
-
         #endregion Fields
 
         #region Methods
@@ -38,17 +36,29 @@ namespace Site.Backend.Data
             return temp.ToArray();
         }
 
+        private static UserAccount AddAccount(UserAccount user)
+        {
+            user.Insert();
+            user = UserAccount.Find(user.user);
+            return user;
+        }
+
         private static _userInfo AddUser(_userInfo user)
         {
             user.Insert();
             user = _userInfo.Find(user.user.user, user.currency);
-            _userCache.Add(user, DateTime.Now);
             return user;
+        }
+
+        private static Streamer AddStreamer(Streamer strmr)
+        {
+            strmr.Insert();
+            strmr = Streamer.Find(strmr.twitch_name);
+            return strmr;
         }
 
         public static Streamer FindStreamer(uint streamerid)
         {
-            
                return Streamer.Find(streamerid);
         }
 
@@ -59,7 +69,7 @@ namespace Site.Backend.Data
             if (_streamer == null)
             {
                 _streamer = new Streamer(twitch_name, twitch_email);
-                _streamer.Insert();
+                return AddStreamer(_streamer);
             }
 
             return _streamer;
@@ -72,7 +82,7 @@ namespace Site.Backend.Data
             if (_userAcc == null)
             {
                 _userAcc = new UserAccount(User);
-                _userAcc.Insert();
+                return AddAccount(_userAcc);
             }
 
             return _userAcc;
@@ -106,13 +116,7 @@ namespace Site.Backend.Data
 
         public static _userInfo FindUser(User user, CurrencyConfig currency)
         {
-            _userInfo _uInfo = Find(_userCache, x => x.user.Equals(user) && x.currency == currency.Id);
-
-            if (_uInfo == null)
-            {
-                _uInfo = _userInfo.Find(user, currency.Id);
-                if (_uInfo != null) _userCache.Add(_uInfo, DateTime.Now);
-            }
+            _userInfo _uInfo = _userInfo.Find(user, currency.Id);
 
             if (_uInfo == null)
             {
@@ -121,18 +125,6 @@ namespace Site.Backend.Data
             }
 
             return _uInfo;
-        }
-
-        public static _userInfo[] FindUsers(User[] users, CurrencyConfig currency)
-        {
-            _userInfo[] _uInfos = new _userInfo[users.Length];
-
-            for (int i = 0; i < users.Length; i++)
-            {
-                _uInfos[i] = FindUser(users[i], currency);
-            }
-
-            return _uInfos;
         }
 
         #endregion Methods
