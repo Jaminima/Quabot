@@ -1,13 +1,13 @@
 ﻿@page "/Authorization"
-@using Backend.Data._MySQL;
 @using Backend.Data._MySQL.Objects;
 @using Backend.Data;
 @using Backend.Authorization;
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.Extensions.Primitives;
 @using Newtonsoft.Json.Linq;
-@using System.Threading;
-@inject NavigationManager navManager
+@using Blazored.SessionStorage;
+@inject NavigationManager navManager;
+@inject ISessionStorageService sessionStorage
 
 <h3>Auth</h3>
 
@@ -34,7 +34,7 @@
                 if (ident != null)
                 {
                     Text = "Processing";
-                    await InvokeAsync(async()=>await PerformAuth(AuthMode, Query, ident));
+                    await InvokeAsync(async () => await PerformAuth(AuthMode, Query, ident));
 
                 }
                 else Text = "A Fault Occurred Please Try Again";
@@ -42,6 +42,8 @@
             else Text = "Auth URL Failure";
         }
         else Text = "Auth URL Failure";
+
+        StateHasChanged();
     }
 
     private async Task PerformAuth(StringValues AuthMode, Dictionary<string, StringValues> Query, Ident ident)
@@ -61,6 +63,8 @@
                 JToken Res = await OAuth.PerformOAuth("https://id.twitch.tv/oauth2/token?client_id=" + Config.Conf.twitch_sign_client_id + "&client_secret=" + Config.Conf.twitch_sign_client_secret + "&code=" + Code + "&grant_type=authorization_code&redirect_uri=" + Config.Conf.oAuthRedirect);
                 if (Res != null)
                 {
+                    await sessionStorage.SetItemAsync("twitch-token", Res["access_token"].ToString());
+                    navManager.NavigateTo("Profile");
                     Text = "Successfully Signed In";
                 }
                 else Text = "A Fault Occurred Please Try Again";
@@ -75,6 +79,6 @@
         return;
     }
 
-    }
+}
 
 <p>@Text</p>

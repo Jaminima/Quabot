@@ -12,12 +12,19 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
+    public static Index index;
+
+    protected override void OnInitialized()
+    {
+        index = this;
+    }
+
     private void GoDiscordBot()
     {
         GoOauthTo("https://discordapp.com/oauth2/authorize?client_id=" + Config.Conf.discord_bot_client_id + "&scope=bot&permissions=0&response_type=code&redirect_uri=" + new UriBuilder(Config.Conf.oAuthRedirect).ToString() + "&state=identifier%3D{0}%26auth_mode=discord-bot");
     }
 
-    private void GoTwitchBot()
+    public void GoTwitchSignin()
     {
         GoOauthTo("https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=" + Config.Conf.twitch_sign_client_id + "&redirect_uri=" + Config.Conf.oAuthRedirect + "&scope=user_read&state=identifier%3D{0}%26auth_mode=twitch-login");
     }
@@ -29,4 +36,4 @@ Welcome to your new app.
 }
 
 <button class="btn btn-primary" @onclick="GoDiscordBot">Discord</button>
-<button class="btn btn-primary" @onclick="GoTwitchBot">Twitch</button>
+<button class="btn btn-primary" @onclick="GoTwitchSignin">Twitch</button>
