@@ -8,10 +8,13 @@ namespace Site.Backend.Data
     {
         #region Fields
 
-        public static Config Conf;
+        public static Config Conf; 
 
         private const string conf_Path = "./Data/Config.json";
-        public string sql_Server, sql_Username, sql_Password;
+        public string sql_Server, sql_Username, sql_Password,
+            oAuthRedirect,
+            discord_bot_client_id, 
+            twitch_sign_client_id, twitch_sign_client_secret;
 
         public uint CacheTimeout;
 

@@ -14,8 +14,19 @@ Welcome to your new app.
 @code {
     private void GoDiscordBot()
     {
-        NavigationManager.NavigateTo("https://discordapp.com/oauth2/authorize?client_id=658254702773010452&scope=bot&permissions=0&response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A44303%2FAuthorization%2F&state=identifier%3D" + Identifiers.AddIdent(DataHandler.FindStreamer(1),1) + "%26auth_mode=discordbot");
+        GoOauthTo("https://discordapp.com/oauth2/authorize?client_id=" + Config.Conf.discord_bot_client_id + "&scope=bot&permissions=0&response_type=code&redirect_uri=" + new UriBuilder(Config.Conf.oAuthRedirect).ToString() + "&state=identifier%3D{0}%26auth_mode=discord-bot");
+    }
+
+    private void GoTwitchBot()
+    {
+        GoOauthTo("https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=" + Config.Conf.twitch_sign_client_id + "&redirect_uri=" + Config.Conf.oAuthRedirect + "&scope=user_read&state=identifier%3D{0}%26auth_mode=twitch-login");
+    }
+
+    private void GoOauthTo(string URL)
+    {
+        NavigationManager.NavigateTo(String.Format(URL, Identifiers.AddIdent(DataHandler.FindStreamer(1), 1)));
     }
 }
 
 <button class="btn btn-primary" @onclick="GoDiscordBot">Discord</button>
+<button class="btn btn-primary" @onclick="GoTwitchBot">Twitch</button>

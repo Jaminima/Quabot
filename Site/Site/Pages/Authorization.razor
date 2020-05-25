@@ -5,23 +5,25 @@
 @using Backend.Authorization;
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.Extensions.Primitives;
+@using Newtonsoft.Json.Linq;
+@using System.Threading;
 @inject NavigationManager navManager
 
 <h3>Auth</h3>
 
 @code {
-    private string Text = "AHH";
+    private string Text = "Something Really Went Wrong";
 
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
         Uri uri = navManager.ToAbsoluteUri(navManager.Uri);
 
         Dictionary<string, StringValues> Query = QueryHelpers.ParseQuery(uri.Query),
             _State;
 
-        StringValues Guild, State, Identifier, AuthMode;
+        StringValues State, Identifier, AuthMode;
 
-        if (Query.TryGetValue("guild_id", out Guild) && Query.TryGetValue("state", out State))
+        if (Query.TryGetValue("state", out State))
         {
             _State = QueryHelpers.ParseQuery(State);
 
@@ -31,15 +33,9 @@
 
                 if (ident != null)
                 {
+                    Text = "Processing";
+                    await InvokeAsync(async()=>await PerformAuth(AuthMode, Query, ident));
 
-                    if (AuthMode.First() == "discordbot" && ident != null)
-                    {
-                        CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.Streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
-                        p.discord_guild = Guild.First();
-                        p.Update();
-
-                        Text = "Successfully Registered Bot";
-                    }
                 }
                 else Text = "A Fault Occurred Please Try Again";
             }
@@ -47,6 +43,38 @@
         }
         else Text = "Auth URL Failure";
     }
-}
+
+    private async Task PerformAuth(StringValues AuthMode, Dictionary<string, StringValues> Query, Ident ident)
+    {
+        switch (AuthMode.First())
+        {
+            case "discord-bot" when Query.TryGetValue("guild_id", out StringValues Guild):
+
+                CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.Streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
+                p.discord_guild = Guild.First();
+                p.Update();
+
+                Text = "Successfully Registered Bot";
+                break;
+
+            case "twitch-login" when Query.TryGetValue("code", out StringValues Code):
+                JToken Res = await OAuth.PerformOAuth("https://id.twitch.tv/oauth2/token?client_id=" + Config.Conf.twitch_sign_client_id + "&client_secret=" + Config.Conf.twitch_sign_client_secret + "&code=" + Code + "&grant_type=authorization_code&redirect_uri=" + Config.Conf.oAuthRedirect);
+                if (Res != null)
+                {
+                    Text = "Successfully Signed In";
+                }
+                else Text = "A Fault Occurred Please Try Again";
+                break;
+
+            default:
+                Text = "A Fault Occurred Please Try Again";
+                break;
+        }
+
+        StateHasChanged();
+        return;
+    }
+
+    }
 
 <p>@Text</p>
