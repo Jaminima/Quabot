@@ -1,0 +1,52 @@
+﻿@page "/Authorization"
+@using Backend.Data._MySQL;
+@using Backend.Data._MySQL.Objects;
+@using Backend.Data;
+@using Backend.Authorization;
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Primitives;
+@inject NavigationManager navManager
+
+<h3>Auth</h3>
+
+@code {
+    private string Text = "AHH";
+
+    protected override void OnInitialized()
+    {
+        Uri uri = navManager.ToAbsoluteUri(navManager.Uri);
+
+        Dictionary<string, StringValues> Query = QueryHelpers.ParseQuery(uri.Query),
+            _State;
+
+        StringValues Guild, State, Identifier, AuthMode;
+
+        if (Query.TryGetValue("guild_id", out Guild) && Query.TryGetValue("state", out State))
+        {
+            _State = QueryHelpers.ParseQuery(State);
+
+            if (_State.TryGetValue("auth_mode", out AuthMode) && _State.TryGetValue("identifier", out Identifier))
+            {
+                Ident ident = Identifiers.FindIdent(Identifier.First());
+
+                if (ident != null)
+                {
+
+                    if (AuthMode.First() == "discordbot" && ident != null)
+                    {
+                        CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.Streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
+                        p.discord_guild = Guild.First();
+                        p.Update();
+
+                        Text = "Successfully Registered Bot";
+                    }
+                }
+                else Text = "A Fault Occurred Please Try Again";
+            }
+            else Text = "Auth URL Failure";
+        }
+        else Text = "Auth URL Failure";
+    }
+}
+
+<p>@Text</p>

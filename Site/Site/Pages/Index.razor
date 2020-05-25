@@ -2,6 +2,8 @@
 @using Backend.Data._MySQL;
 @using Backend.Data._MySQL.Objects;
 @using Backend.Data;
+@using Backend.Authorization;
+@inject NavigationManager NavigationManager
 
 <h1>Hello, world!</h1>
 
@@ -10,19 +12,10 @@ Welcome to your new app.
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
-    private string Name = "NONE";
-
-    private void GetNames()
+    private void GoDiscordBot()
     {
-        //Name = CacheHandler.FindCurrency(1).name;
-    }
-
-    private void ClearNames()
-    {
-        Name = "NONE";
+        NavigationManager.NavigateTo("https://discordapp.com/oauth2/authorize?client_id=658254702773010452&scope=bot&permissions=0&response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A44303%2FAuthorization%2F&state=identifier%3D" + Identifiers.AddIdent(DataHandler.FindStreamer(1),1) + "%26auth_mode=discordbot");
     }
 }
 
-<p>FurstName: @Name</p>
-<button class="btn btn-primary" @onclick="GetNames">First Id</button>
-<button class="btn btn-primary" @onclick="ClearNames">Remove</button>
+<button class="btn btn-primary" @onclick="GoDiscordBot">Discord</button>

@@ -88,6 +88,18 @@ namespace Site.Backend.Data._MySQL.Objects
             twitch_name = Data[3].ToString();
         }
 
+        public override void Update()
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", discord_guild),
+                new Tuple<string, object>("@1", twitch_name),
+                new Tuple<string, object>("@2", currencyid),
+                new Tuple<string, object>("@3", streamerid)
+            };
+            
+            SQL.pubInstance.Execute("UPDATE currency_participants SET discord_guild = @0, twitch_name = @1 WHERE currency_id=@2 AND streamer_id = @3", Params);
+        }
+
         #endregion Methods
     }
 }
