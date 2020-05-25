@@ -14,7 +14,7 @@ Welcome to your new app.
 @code {
     public static Index index;
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         index = this;
     }

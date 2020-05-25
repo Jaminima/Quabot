@@ -12,22 +12,45 @@
 <h1>Profile</h1>
 
 <p>TwitchName: @T_name</p>
+<p>StreamerId: @S_id</p>
 <p>Email: @T_email</p>
 <img src="@T_img" />
 
 @code {
     string T_name, T_email, T_img, T_token;
-    JToken u_Data;
+    string S_id;
 
-    protected override async void OnInitialized()
+    string temp;
+
+    JToken u_Data;
+    Streamer s;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
+
         T_token = await sessionStorage.GetItemAsync<string>("twitch-token");
         if (T_token != null)
         {
-            u_Data = (await Twitch.GetUser(T_token))["data"][0];
+            temp = await sessionStorage.GetItemAsync<string>("u_Data");
+
+            if (temp == null)
+            {
+                u_Data = (await Twitch.GetUser(T_token))["data"][0];
+                await sessionStorage.SetItemAsync("u_Data", u_Data.ToString());
+            }
+            else
+            {
+                u_Data = JToken.Parse(temp);
+            }
+
             T_name = u_Data["display_name"].ToString();
             T_email = u_Data["email"].ToString();
             T_img = u_Data["profile_image_url"].ToString();
+
+            s = Site.Backend.Data.DataHandler.FindStreamer(T_name, T_email);
+            S_id = s.Id.ToString();
+
             StateHasChanged();
         }
         else Index.index.GoTwitchSignin();

@@ -12,9 +12,9 @@
 <h3>Auth</h3>
 
 @code {
-    private string Text = "Something Really Went Wrong";
+    private string Text = "Logging You In";
 
-    protected override async void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         Uri uri = navManager.ToAbsoluteUri(navManager.Uri);
 
