@@ -1,6 +1,6 @@
 ﻿@page "/Profile"
 @using Backend.Data._MySQL.Objects;
-@using Backend.Data;
+@using Backend.Integrations;
 @using Backend.Authorization;
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.Extensions.Primitives;
@@ -12,16 +12,23 @@
 <h1>Profile</h1>
 
 <p>TwitchName: @T_name</p>
+<p>Email: @T_email</p>
+<img src="@T_img" />
 
 @code {
-    string T_name, T_token;
+    string T_name, T_email, T_img, T_token;
+    JToken u_Data;
 
     protected override async void OnInitialized()
     {
         T_token = await sessionStorage.GetItemAsync<string>("twitch-token");
         if (T_token != null)
         {
-
+            u_Data = (await Twitch.GetUser(T_token))["data"][0];
+            T_name = u_Data["display_name"].ToString();
+            T_email = u_Data["email"].ToString();
+            T_img = u_Data["profile_image_url"].ToString();
+            StateHasChanged();
         }
         else Index.index.GoTwitchSignin();
     }

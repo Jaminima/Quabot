@@ -34,8 +34,7 @@
                 if (ident != null)
                 {
                     Text = "Processing";
-                    await InvokeAsync(async () => await PerformAuth(AuthMode, Query, ident));
-
+                    await PerformAuth(AuthMode, Query, ident);
                 }
                 else Text = "A Fault Occurred Please Try Again";
             }
