@@ -13,7 +13,7 @@ namespace Site.Backend.Data
         private const string conf_Path = "./Data/Config.json";
         public string sql_Server, sql_Username, sql_Password,
             oAuthRedirect,
-            discord_bot_client_id, 
+            discord_bot_client_id, discord_bot_client_secret,
             twitch_sign_client_id, twitch_sign_client_secret;
 
         public uint CacheTimeout;

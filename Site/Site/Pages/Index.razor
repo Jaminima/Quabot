@@ -1,9 +1,6 @@
 ﻿@page "/"
-@using Backend.Data._MySQL;
-@using Backend.Data._MySQL.Objects;
-@using Backend.Data;
 @using Backend.Authorization;
-@inject NavigationManager NavigationManager
+@inject NavigationManager navManager;
 
 <h1>Hello, world!</h1>
 
@@ -11,29 +8,6 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-@code {
-    public static Index index;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        index = this;
-    }
-
-    private void GoDiscordBot()
-    {
-        GoOauthTo("https://discordapp.com/oauth2/authorize?client_id=" + Config.Conf.discord_bot_client_id + "&scope=bot&permissions=0&response_type=code&redirect_uri=" + new UriBuilder(Config.Conf.oAuthRedirect).ToString() + "&state=identifier%3D{0}%26auth_mode=discord-bot");
-    }
-
-    public void GoTwitchSignin()
-    {
-        GoOauthTo("https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=" + Config.Conf.twitch_sign_client_id + "&redirect_uri=" + Config.Conf.oAuthRedirect + "&scope=user_read+user:read:email&state=identifier%3D{0}%26auth_mode=twitch-login");
-    }
-
-    private void GoOauthTo(string URL)
-    {
-        NavigationManager.NavigateTo(String.Format(URL, Identifiers.AddIdent(DataHandler.FindStreamer(1), 1)));
-    }
-}
-
-<button class="btn btn-primary" @onclick="GoDiscordBot">Discord</button>
-<button class="btn btn-primary" @onclick="GoTwitchSignin">Twitch</button>
+<button class="btn btn-primary" @onclick="()=>AuthAction.GoDiscordBot(navManager)">Add Bot</button>
+<button class="btn btn-primary" @onclick="()=>AuthAction.GoDiscordSignin(navManager)">Sign in to Discord</button>
+<button class="btn btn-primary" @onclick="()=>AuthAction.GoTwitchSignin(navManager)">Twitch</button>

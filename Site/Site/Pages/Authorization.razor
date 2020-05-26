@@ -16,6 +16,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
         Uri uri = navManager.ToAbsoluteUri(navManager.Uri);
 
         Dictionary<string, StringValues> Query = QueryHelpers.ParseQuery(uri.Query),
@@ -47,6 +48,7 @@
 
     private async Task PerformAuth(StringValues AuthMode, Dictionary<string, StringValues> Query, Ident ident)
     {
+        JToken Res;
         switch (AuthMode.First())
         {
             case "discord-bot" when Query.TryGetValue("guild_id", out StringValues Guild):
@@ -58,12 +60,21 @@
                 Text = "Successfully Registered Bot";
                 break;
 
+            case "discord-login" when Query.TryGetValue("code", out StringValues Code):
+                Res = await OAuth.PerformOAuth("https://discord.com/api/oauth2/token","client_id="+Config.Conf.discord_bot_client_id+ "&client_secret="+Config.Conf.discord_bot_client_secret+ "&grant_type=authorization_code&redirect_uri="+ Config.Conf.oAuthRedirect + "&scope=email+identify&code="+Code);
+                if (Res != null)
+                {
+                    await sessionStorage.SetItemAsync("discord-token", Res["access_token"].ToString());
+                    Text = "Successfully Signed In";
+                }
+                else Text = "A Fault Occurred Please Try Again";
+                break;
+
             case "twitch-login" when Query.TryGetValue("code", out StringValues Code):
-                JToken Res = await OAuth.PerformOAuth("https://id.twitch.tv/oauth2/token?client_id=" + Config.Conf.twitch_sign_client_id + "&client_secret=" + Config.Conf.twitch_sign_client_secret + "&code=" + Code + "&grant_type=authorization_code&redirect_uri=" + Config.Conf.oAuthRedirect);
+                Res = await OAuth.PerformOAuth("https://id.twitch.tv/oauth2/token?client_id=" + Config.Conf.twitch_sign_client_id + "&client_secret=" + Config.Conf.twitch_sign_client_secret + "&code=" + Code + "&grant_type=authorization_code&redirect_uri=" + Config.Conf.oAuthRedirect);
                 if (Res != null)
                 {
                     await sessionStorage.SetItemAsync("twitch-token", Res["access_token"].ToString());
-                    navManager.NavigateTo("Profile");
                     Text = "Successfully Signed In";
                 }
                 else Text = "A Fault Occurred Please Try Again";
