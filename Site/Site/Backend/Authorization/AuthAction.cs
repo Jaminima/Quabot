@@ -10,6 +10,7 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json.Linq;
 using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
+using Site.Backend.Integrations;
 
 namespace Site.Backend.Authorization
 {
@@ -34,6 +35,52 @@ namespace Site.Backend.Authorization
         {
             URL = String.Format(URL, Identifiers.AddIdent(DataHandler.FindStreamer(1), 1));
             nav.NavigateTo(URL);
+        }
+
+        public static async Task<JToken> GetTwitchLogin(NavigationManager nav, ISessionStorageService sessionStorage)
+        {
+            string token = await sessionStorage.GetItemAsync<string>("twitch-token");
+            string temp;
+            JToken Data=null;
+            if (token != null)
+            {
+                temp = await sessionStorage.GetItemAsync<string>("t_Data");
+
+                if (temp == null)
+                {
+                    Data = (await Twitch.GetUser(token))["data"][0];
+                    await sessionStorage.SetItemAsync("t_Data", Data.ToString());
+                }
+                else
+                {
+                    Data = JToken.Parse(temp);
+                }
+            }
+            else { AuthAction.GoTwitchSignin(nav); }
+            return Data;
+        }
+
+        public static async Task<JToken> GetDiscordLogin(NavigationManager nav, ISessionStorageService sessionStorage)
+        {
+            string token = await sessionStorage.GetItemAsync<string>("discord-token");
+            string temp;
+            JToken Data = null;
+            if (token != null)
+            {
+                temp = await sessionStorage.GetItemAsync<string>("d_Data");
+
+                if (temp == null)
+                {
+                    Data = (await Discord.GetUser(token));
+                    await sessionStorage.SetItemAsync("d_Data", Data.ToString());
+                }
+                else
+                {
+                    Data = JToken.Parse(temp);
+                }
+            }
+            else { AuthAction.GoDiscordSignin(nav); }
+            return Data;
         }
     }
 }

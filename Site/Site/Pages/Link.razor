@@ -15,62 +15,24 @@
 <p>Discord: @sDiscord</p>
 
 @code {
-        string sTwitch, sDiscord;
+    string sTwitch, sDiscord;
 
-        string T_token, D_token;
-
-        string temp;
-
-        JToken t_Data, d_Data;
+    JToken t_Data, d_Data;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
 
-        D_token = await sessionStorage.GetItemAsync<string>("discord-token");
-        T_token = await sessionStorage.GetItemAsync<string>("twitch-token");
-        if (T_token != null)
+        t_Data = await AuthAction.GetTwitchLogin(navManager, sessionStorage);
+        if (t_Data != null) d_Data = await AuthAction.GetDiscordLogin(navManager, sessionStorage);
+
+        if (t_Data != null && d_Data != null)
         {
-            temp = await sessionStorage.GetItemAsync<string>("t_Data");
-
-            if (temp == null)
-            {
-                t_Data = (await Twitch.GetUser(T_token))["data"][0];
-                await sessionStorage.SetItemAsync("t_Data", t_Data.ToString());
-            }
-            else
-            {
-                t_Data = JToken.Parse(temp);
-            }
-
             sTwitch = t_Data["display_name"].ToString();
+            sDiscord = d_Data["username"].ToString();
         }
-        else { AuthAction.GoTwitchSignin(navManager); }
-
-        if (T_token != null)
-        {
-            if (D_token != null)
-            {
-                temp = await sessionStorage.GetItemAsync<string>("d_Data");
-
-                if (temp == null)
-                {
-                    d_Data = (await Discord.GetUser(D_token));
-                    await sessionStorage.SetItemAsync("d_Data", d_Data.ToString());
-                }
-                else
-                {
-                    d_Data = JToken.Parse(temp);
-                }
-
-                sDiscord = d_Data["id"].ToString();
-            }
-            else { AuthAction.GoDiscordSignin(navManager); }
-        }
-
 
         StateHasChanged();
-
     }
 
 }

@@ -17,10 +17,8 @@
 <img src="@T_img" />
 
 @code {
-    string T_name, T_email, T_img, T_token;
+    string T_name, T_email, T_img;
     string S_id;
-
-    string temp;
 
     JToken u_Data;
     Streamer s;
@@ -29,21 +27,10 @@
     {
         if (!firstRender) return;
 
-        T_token = await sessionStorage.GetItemAsync<string>("twitch-token");
-        if (T_token != null)
+        u_Data = await AuthAction.GetTwitchLogin(navManager, sessionStorage);
+
+        if (u_Data != null)
         {
-            temp = await sessionStorage.GetItemAsync<string>("u_Data");
-
-            if (temp == null)
-            {
-                u_Data = (await Twitch.GetUser(T_token))["data"][0];
-                await sessionStorage.SetItemAsync("u_Data", u_Data.ToString());
-            }
-            else
-            {
-                u_Data = JToken.Parse(temp);
-            }
-
             T_name = u_Data["display_name"].ToString();
             T_email = u_Data["email"].ToString();
             T_img = u_Data["profile_image_url"].ToString();
@@ -53,7 +40,6 @@
 
             StateHasChanged();
         }
-        else AuthAction.GoTwitchSignin(navManager);
     }
 
 }
