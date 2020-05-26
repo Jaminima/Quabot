@@ -35,7 +35,7 @@
                 if (ident != null)
                 {
                     Text = "Processing";
-                    await PerformAuth(AuthMode, Query, ident);
+                    await PerformAuth(AuthMode, Query, _State, ident);
                 }
                 else Text = "A Fault Occurred Please Try Again";
             }
@@ -46,18 +46,27 @@
         StateHasChanged();
     }
 
-    private async Task PerformAuth(StringValues AuthMode, Dictionary<string, StringValues> Query, Ident ident)
+    private async Task PerformAuth(StringValues AuthMode, Dictionary<string, StringValues> Query, Dictionary<string, StringValues> State, Ident ident)
     {
         JToken Res;
+        bool Success = false;
         switch (AuthMode.First())
         {
             case "discord-bot" when Query.TryGetValue("guild_id", out StringValues Guild):
 
-                CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.Streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
-                p.discord_guild = Guild.First();
-                p.Update();
+                if (ident.Streamer == null) { Text = "You must have an account first!"; return; }
 
-                Text = "Successfully Registered Bot";
+                CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.Streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
+
+                if (p == null)
+                {
+                    p.discord_guild = Guild.First();
+                    p.Update();
+                    Text = "Successfully Registered Bot";
+                    Success = true;
+                }
+                else Text = "You must be part of a currency first";
+
                 break;
 
             case "discord-login" when Query.TryGetValue("code", out StringValues Code):
@@ -66,6 +75,7 @@
                 {
                     await sessionStorage.SetItemAsync("discord-token", Res["access_token"].ToString());
                     Text = "Successfully Signed In";
+                    Success = true;
                 }
                 else Text = "A Fault Occurred Please Try Again";
                 break;
@@ -76,6 +86,7 @@
                 {
                     await sessionStorage.SetItemAsync("twitch-token", Res["access_token"].ToString());
                     Text = "Successfully Signed In";
+                    Success = true;
                 }
                 else Text = "A Fault Occurred Please Try Again";
                 break;
@@ -84,6 +95,8 @@
                 Text = "A Fault Occurred Please Try Again";
                 break;
         }
+
+        if (Success) navManager.NavigateTo(State["redirect"].First());
 
         StateHasChanged();
         return;
