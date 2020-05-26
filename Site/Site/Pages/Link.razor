@@ -23,8 +23,8 @@
     {
         if (!firstRender) return;
 
-        t_Data = await AuthAction.GetTwitchLogin(navManager, sessionStorage);
-        if (t_Data != null) d_Data = await AuthAction.GetDiscordLogin(navManager, sessionStorage);
+        t_Data = await AuthAction.GetTwitchLogin(navManager, sessionStorage, "Link");
+        if (t_Data != null) d_Data = await AuthAction.GetDiscordLogin(navManager, sessionStorage, "Link");
 
         if (t_Data != null && d_Data != null)
         {

@@ -61,7 +61,7 @@ namespace Site.Backend.Authorization
             nav.NavigateTo(URL);
         }
 
-        public static async Task<JToken> GetTwitchLogin(NavigationManager nav, ISessionStorageService sessionStorage)
+        public static async Task<JToken> GetTwitchLogin(NavigationManager nav, ISessionStorageService sessionStorage, string Redirect = "")
         {
             string token = await sessionStorage.GetItemAsync<string>("twitch-token");
             string temp;
@@ -80,11 +80,11 @@ namespace Site.Backend.Authorization
                     Data = JToken.Parse(temp);
                 }
             }
-            else { AuthAction.GoTwitchSignin(nav); }
+            else { AuthAction.GoTwitchSignin(nav,Redirect); }
             return Data;
         }
 
-        public static async Task<JToken> GetDiscordLogin(NavigationManager nav, ISessionStorageService sessionStorage)
+        public static async Task<JToken> GetDiscordLogin(NavigationManager nav, ISessionStorageService sessionStorage, string Redirect = "")
         {
             string token = await sessionStorage.GetItemAsync<string>("discord-token");
             string temp;
@@ -103,7 +103,7 @@ namespace Site.Backend.Authorization
                     Data = JToken.Parse(temp);
                 }
             }
-            else { AuthAction.GoDiscordSignin(nav); }
+            else { AuthAction.GoDiscordSignin(nav, Redirect); }
             return Data;
         }
     }
