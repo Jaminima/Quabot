@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using DTBot_Template.Data;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,15 +22,18 @@ namespace DTBot_Template
             if (!args.Author.IsBot)
             {
                 CurrencyConfig C = CacheHandler.FindCurrency(((SocketGuildChannel)args.Channel).Guild.Id.ToString(), Generics.Source.Discord);
-                if (args.Content[0] == Command)
+                if (C != null)
                 {
-                    Generics.Command command = new Generics.Command(args,C);
-                    await CommandHandler(command, this, C);
-                }
-                else
-                {
-                    Generics.Message message = new Generics.Message(args);
-                    await MessageHandler(message, this, C);
+                    if (args.Content[0] == Command)
+                    {
+                        Generics.Command command = new Generics.Command(args, C);
+                        await CommandHandler(command, this, C);
+                    }
+                    else
+                    {
+                        Generics.Message message = new Generics.Message(args);
+                        await MessageHandler(message, this, C);
+                    }
                 }
             }
         }

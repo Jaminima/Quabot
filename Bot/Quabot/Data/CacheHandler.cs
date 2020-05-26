@@ -98,6 +98,7 @@ namespace DTBot_Template.Data
                 else _participant = CurrencyParticipant.FindTwitch(Source);
 
                 if (_participant != null) _currencyParticipantCache.Add(_participant, DateTime.Now);
+                else return null;
             }
 
             return FindCurrency(_participant.currencyid);

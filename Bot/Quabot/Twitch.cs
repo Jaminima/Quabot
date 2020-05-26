@@ -12,18 +12,25 @@ namespace DTBot_Template
 
         private async void CommandReceived(object e, OnChatCommandReceivedArgs args)
         {
-            CurrencyConfig C = CacheHandler.FindCurrency(args.Command.ChatMessage.Channel, Generics.Source.Twitch);
-            Generics.Command command = new Generics.Command(args.Command,C);
-            await CommandHandler(command, this, CacheHandler.FindCurrency(command.channel.ChannelName, command.Source));
+            CurrencyConfig C = CacheHandler.FindCurrency(args.Command.ChatMessage.Channel, Generics.Source.Twitch); 
+
+            if (C != null)
+            {
+                Generics.Command command = new Generics.Command(args.Command, C);
+                await CommandHandler(command, this, CacheHandler.FindCurrency(command.channel.ChannelName, command.Source));
+            }
         }
 
         private async void MessageReceived(object e, OnMessageReceivedArgs args)
         {
             if (args.ChatMessage.Message[0] != Command)
             {
-                CurrencyConfig C = CacheHandler.FindCurrency(args.ChatMessage.Channel, Generics.Source.Twitch);
-                Generics.Message message = new Generics.Message(args.ChatMessage);
-                await MessageHandler(message, this, C);
+                CurrencyConfig C = CacheHandler.FindCurrency(args.ChatMessage.Channel, Generics.Source.Twitch); 
+                if (C != null)
+                {
+                    Generics.Message message = new Generics.Message(args.ChatMessage);
+                    await MessageHandler(message, this, C);
+                }
             }
         }
 
