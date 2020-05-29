@@ -76,6 +76,23 @@ namespace Site.Backend.Data._MySQL.Objects
             user = new User(Data[2].ToString(), Data[1].ToString());
         }
 
+        public override void Update()
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", user.Discord_Id),
+                new Tuple<string, object>("@1", user.Twitch_Name),
+                new Tuple<string, object>("@2", Id)
+            };
+            SQL.pubInstance.Execute("UPDATE currency_users SET discord_id = @0, twitch_name = @1 WHERE user_id=@2", Params);
+        }
+        public override void Delete()
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", Id)
+            };
+            SQL.pubInstance.Execute("DELETE FROM currency_users WHERE user_id=@0", Params);
+        }
+
         #endregion Methods
     }
 }

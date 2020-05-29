@@ -40,6 +40,25 @@ namespace Site.Backend.Data._MySQL.Objects
 
         #region Methods
 
+        public static _userInfo[] FindAll(User user)
+        {
+            //UserAccount A = CacheHandler.FindAccount(user);
+            UserAccount A = UserAccount.Find(user);
+
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", A.Id)
+            };
+            List<object[]> Data = SQL.pubInstance.Read("SELECT * FROM currency_account WHERE currency_user = @0", Params);
+
+            if (Data.Count == 0) return null;
+
+            List<_userInfo> T = new List<_userInfo>();
+
+            Data.ForEach(x => { T.Add(new _userInfo()); T.Last().SetValues(x); });
+
+            return T.ToArray();
+        }
+
         public static _userInfo Find(User user, uint curid)
         {
             //UserAccount A = CacheHandler.FindAccount(user);
@@ -73,6 +92,14 @@ namespace Site.Backend.Data._MySQL.Objects
             balance = uint.Parse(Data[2].ToString());
 
             user = UserAccount.Find(uint.Parse(Data[3].ToString()));
+        }
+
+        public override void Delete()
+        {
+            List<Tuple<string, object>> Params = new List<Tuple<string, object>> {
+                new Tuple<string, object>("@0", Id)
+            };
+            SQL.pubInstance.Execute("DELETE FROM currency_account WHERE account_id=@0", Params);
         }
 
         public override void Update()

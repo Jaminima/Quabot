@@ -127,6 +127,12 @@ namespace Site.Backend.Data
             return _uInfo;
         }
 
+        public static _userInfo[] FindUser(User user)
+        {
+            _userInfo[] _uInfo = _userInfo.FindAll(user);
+            return _uInfo;
+        }
+
         #endregion Methods
     }
 }

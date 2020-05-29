@@ -1,7 +1,9 @@
 ﻿@page "/Link"
-@using Backend.Data._MySQL.Objects;
+@using Backend.Data;
 @using Backend.Integrations;
 @using Backend.Authorization;
+@using Site.Backend.Data._MySQL.Objects;
+@using Site.Backend.Data.Generics;
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.Extensions.Primitives;
 @using Newtonsoft.Json.Linq;
@@ -15,9 +17,9 @@
 <p>Discord: @sDiscord</p>
 
 @code {
-    string sTwitch, sDiscord;
+        string sTwitch, sDiscord;
 
-    JToken t_Data, d_Data;
+        JToken t_Data, d_Data;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -29,7 +31,43 @@
         if (t_Data != null && d_Data != null)
         {
             sTwitch = t_Data["display_name"].ToString();
-            sDiscord = d_Data["username"].ToString();
+            sDiscord = d_Data["id"].ToString();
+
+            UserAccount Twitch = UserAccount.Find(new User(sTwitch, Source.Twitch)),
+                Discord = UserAccount.Find(new User(sDiscord, Source.Discord));
+
+            User completedU = new User(sTwitch, sDiscord);
+
+            if (Twitch==null && Discord == null)
+            {
+                UserAccount n = new UserAccount(completedU);
+                n.Insert();
+            }
+            else if (Twitch!=null && Discord != null)
+            {
+                _userInfo[] tBals = DataHandler.FindUser(Twitch.user),
+                    dBals = DataHandler.FindUser(Discord.user);
+
+                foreach (_userInfo t in tBals)
+                {
+                    _userInfo d = dBals.First(x => x.currency == t.currency);
+                    if (d != null) { d.balance += t.balance; d.Update(); }
+                }
+
+                Twitch.Delete();
+                Discord.user = completedU;
+                Discord.Update();
+            }
+            else if (Twitch != null)
+            {
+                Twitch.user = completedU;
+                Twitch.Update();
+            }
+            else
+            {
+                Discord.user = completedU;
+                Discord.Update();
+            }
         }
 
         StateHasChanged();
