@@ -52,7 +52,7 @@ namespace DTBot_Template.Generics
 
         public bool Equals(User other)
         {
-            return other.Discord_Id == this.Discord_Id || other.Twitch_Name == this.Twitch_Name;
+            return (other.Discord_Id == this.Discord_Id && other.Discord_Id != "") || (other.Twitch_Name == this.Twitch_Name && other.Twitch_Name!="");
         }
 
         public async Task SendDM(string Message)

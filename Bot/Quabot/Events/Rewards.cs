@@ -25,6 +25,8 @@ namespace DTBot_Template.Events
         {
             FishReward reward = fisher.currency.FishRewards[Controller.rnd.Next(0, fisher.currency.FishRewards.Length)];
 
+            fisher.User = _userInfo.Find(fisher.User.user.user, fisher.currency.Id);
+
             fisher.User.balance += reward.Reward;
             fisher.User.Update();
 
