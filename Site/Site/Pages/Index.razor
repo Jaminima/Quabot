@@ -1,13 +1,40 @@
 ﻿@page "/"
+@using Backend.Data._MySQL.Objects;
+@using Backend.Integrations;
 @using Backend.Authorization;
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Primitives;
+@using Newtonsoft.Json.Linq;
+@using Blazored.SessionStorage;
 @inject NavigationManager navManager;
+@inject ISessionStorageService sessionStorage;
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
+<h2>@Error</h2>
+
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<button class="btn btn-primary" @onclick="()=>AuthAction.GoDiscordBot(navManager)">Add Bot</button>
+@code{
+    string Error = "";
+
+    async void DiscordBot()
+    {
+        Streamer S = JToken.Parse(await sessionStorage.GetItemAsync<String>("streamer")).ToObject<Streamer>();
+        if (S != null)
+        {
+            AuthAction.GoDiscordBot(navManager,S);
+        }
+        else
+        {
+            Error = "You must signin first!";
+            StateHasChanged();
+        }
+    }
+}
+
+<button class="btn btn-primary" @onclick="DiscordBot">Add Bot</button>
 <button class="btn btn-primary" @onclick="()=>AuthAction.GoDiscordSignin(navManager)">Sign in to Discord</button>
 <button class="btn btn-primary" @onclick="()=>AuthAction.GoTwitchSignin(navManager)">Twitch</button>

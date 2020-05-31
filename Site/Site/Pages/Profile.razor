@@ -7,7 +7,7 @@
 @using Newtonsoft.Json.Linq;
 @using Blazored.SessionStorage;
 @inject NavigationManager navManager;
-@inject ISessionStorageService sessionStorage
+@inject ISessionStorageService sessionStorage;
 
 <h1>Profile</h1>
 
@@ -37,6 +37,8 @@
 
             s = Site.Backend.Data.DataHandler.FindStreamer(T_name, T_email);
             S_id = s.Id.ToString();
+
+            await sessionStorage.SetItemAsync("streamer", JToken.FromObject(s).ToString());
 
             StateHasChanged();
         }

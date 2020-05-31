@@ -16,25 +16,22 @@ namespace Site.Backend.Authorization
 {
     public static class AuthAction
     {
-        public static void GoDiscordBot(NavigationManager nav, string redirectURL="")
+        public static void GoDiscordBot(NavigationManager nav, Streamer streamer, string redirectURL="")
         {
-            GoOauthTo("https://discord.com/api/oauth2/authorize", "bot", "discord-bot", redirectURL, 0, nav);
-            //GoOauthTo("https://discordapp.com/oauth2/authorize?client_id=" + Config.Conf.discord_bot_client_id + "&scope=bot&permissions=0&response_type=code&redirect_uri=" + new UriBuilder(Config.Conf.oAuthRedirect).ToString() + "&state=identifier%3D{0}%26auth_mode=discord-bot", nav);
+            GoOauthTo("https://discord.com/api/oauth2/authorize", "bot", "discord-bot", redirectURL, 0, streamer,  nav);
         }
 
-        public static void GoDiscordSignin(NavigationManager nav, string redirectURL = "")
+        public static void GoDiscordSignin(NavigationManager nav,  string redirectURL = "")
         {
-            GoOauthTo("https://discord.com/api/oauth2/authorize", "email+identify", "discord-login", redirectURL, 0, nav);
-            //GoOauthTo("https://discord.com/api/oauth2/authorize?client_id=" + Config.Conf.discord_bot_client_id + "&redirect_uri=" + new UriBuilder(Config.Conf.oAuthRedirect).ToString() + "&response_type=code&scope=email+identify&state=identifier%3D{0}%26auth_mode=discord-login", nav);
+            GoOauthTo("https://discord.com/api/oauth2/authorize", "email+identify", "discord-login", redirectURL, 0, null,  nav);
         }
 
         public static void GoTwitchSignin(NavigationManager nav, string redirectURL = "")
         {
-            GoOauthTo("https://id.twitch.tv/oauth2/authorize", "user_read+user:read:email", "twitch-login", redirectURL, 1, nav);
-            //GoOauthTo("https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=" + Config.Conf.twitch_sign_client_id + "&redirect_uri=" + Config.Conf.oAuthRedirect + "&scope=user_read+user:read:email&state=identifier%3D{0}%26auth_mode=twitch-login",nav);
+            GoOauthTo("https://id.twitch.tv/oauth2/authorize", "user_read+user:read:email", "twitch-login", redirectURL, 1, null, nav);
         }
 
-        private static void GoOauthTo(string URL, string scope, string authMode, string redirectURL, int Src, NavigationManager nav)
+        private static void GoOauthTo(string URL, string scope, string authMode, string redirectURL, int Src, Streamer streamer, NavigationManager nav)
         {
             URL += "?";
             URL += "response_type=code";
@@ -52,12 +49,12 @@ namespace Site.Backend.Authorization
             URL += "&scope=" + scope;
             URL += "&state=identifier%3D{0}%26auth_mode="+authMode+ "%26redirect="+redirectURL;
 
-            GoOauthTo(URL, nav);
+            GoOauthTo(URL, streamer, nav);
         }
 
-        private static void GoOauthTo(string URL, NavigationManager nav)
+        private static void GoOauthTo(string URL, Streamer S, NavigationManager nav)
         {
-            URL = String.Format(URL, Identifiers.AddIdent(DataHandler.FindStreamer(1), 1));
+            URL = String.Format(URL, Identifiers.AddIdent(S, 1));
             nav.NavigateTo(URL);
         }
 

@@ -54,11 +54,11 @@
         {
             case "discord-bot" when Query.TryGetValue("guild_id", out StringValues Guild):
 
-                if (ident.Streamer == null) { Text = "You must have an account first!"; return; }
+                if (ident.streamer == null) { Text = "You must have an account first!"; return; }
 
-                CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.Streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
+                CurrencyParticipant p = CurrencyParticipant.FindStreamer(ident.streamer.Id).First(x => x.currencyid == ident.CurrencyConfig);
 
-                if (p == null)
+                if (p != null)
                 {
                     p.discord_guild = Guild.First();
                     p.Update();

@@ -13,11 +13,10 @@
 
 <h1>Profile</h1>
 
-<p>Twitch: @sTwitch</p>
-<p>Discord: @sDiscord</p>
+<h2>State: @State</h2>
 
 @code {
-        string sTwitch, sDiscord;
+        string State = "Please Sign In";
 
         JToken t_Data, d_Data;
 
@@ -30,28 +29,34 @@
 
         if (t_Data != null && d_Data != null)
         {
-            sTwitch = t_Data["display_name"].ToString();
-            sDiscord = d_Data["id"].ToString();
+            State = "Performed Link";
 
-            UserAccount Twitch = UserAccount.Find(new User(sTwitch, Source.Twitch)),
-                Discord = UserAccount.Find(new User(sDiscord, Source.Discord));
+            UserAccount Twitch = UserAccount.Find(new User(t_Data["display_name"].ToString(), Source.Twitch)),
+                Discord = UserAccount.Find(new User(d_Data["id"].ToString(), Source.Discord));
 
-            User completedU = new User(sTwitch, sDiscord);
+            User completedU = new User(t_Data["display_name"].ToString(), d_Data["id"].ToString());
 
-            if (Twitch==null && Discord == null)
+            if (Twitch.Id == Discord.Id)
+            {
+                State = "Accounts already linked";
+            }
+            else if (Twitch==null && Discord == null)
             {
                 UserAccount n = new UserAccount(completedU);
                 n.Insert();
             }
-            else if (Twitch!=null && Discord != null)
+            else if (Twitch != null && Discord != null)
             {
                 _userInfo[] tBals = DataHandler.FindUser(Twitch.user),
                     dBals = DataHandler.FindUser(Discord.user);
 
-                foreach (_userInfo t in tBals)
+                if (tBals != null && dBals != null)
                 {
-                    _userInfo d = dBals.First(x => x.currency == t.currency);
-                    if (d != null) { d.balance += t.balance; d.Update(); }
+                    foreach (_userInfo t in tBals)
+                    {
+                        _userInfo d = dBals.First(x => x.currency == t.currency);
+                        if (d != null) { d.balance += t.balance; d.Update(); }
+                    }
                 }
 
                 Twitch.Delete();

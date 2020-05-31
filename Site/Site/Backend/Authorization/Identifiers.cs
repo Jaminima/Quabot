@@ -44,14 +44,14 @@ namespace Site.Backend.Authorization
 
     public class Ident
     {
-        public Streamer Streamer;
+        public Streamer streamer;
         public uint CurrencyConfig;
         public string ident_string;
 
         public Ident(Streamer S, uint cuid, string ident)
         {
             CurrencyConfig = cuid;
-            Streamer = S;
+            streamer = S;
             ident_string = ident;
         }
     }
